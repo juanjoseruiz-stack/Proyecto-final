@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduNexus - Mi Perfil</title>
+    <link rel="stylesheet" href="perfil.css">
+</head>
+<body>
+    <div class="page-container">
+        <header class="top-bar">
+            <a href="http://127.0.0.1:5500/Inicio.html" class="back-btn">← Volver al Menú</a>
+            <h1 class="page-title">Mi Perfil</h1>
+        </header>
+
+        <main class="profile-card">
+            <div class="profile-header">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Foto de Perfil" class="profile-avatar">
+                <div class="profile-info">
+                    <h2>Estudiante EduNexus</h2>
+                    <p>estudiante@edunexus.edu</p>
+                    <span class="user-role">Estudiante Activo</span>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">12</span>
+                    <span class="stat-label">Guías Completadas</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">5</span>
+                    <span class="stat-label">Diplomas Ganados</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">98%</span>
+                    <span class="stat-label">Asistencia</span>
+                </div>
+            </div>
+
+            <form class="profile-form">
+                <div class="form-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" value="Juan Pérez" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" value="estudiante@edunexus.edu" readonly>
+                </div>
+                <button type="button" class="btn-primary">Editar Perfil</button>
+            </form>
+        </main>
+    </div>
+</body>
+</html>

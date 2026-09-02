@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduNexus - Diplomas</title>
+
+    <!-- ESTILOS INDEPENDIENTES DE DIPLOMAS -->
+    <link rel="stylesheet" href="diplomas.css">
+    
+    <!-- React, ReactDOM y Babel por CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+
+    <!-- Encabezado con Navegación Principal -->
+    <header>
+        <div class="header-container">
+            <h1>EduNexus</h1>
+            <nav>
+                <a href="../Inicio.html">Inicio</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Contenedor donde React renderizará la vista -->
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function DiplomasView() {
+            // Estados para búsqueda y filtro
+            const [searchTerm, setSearchTerm] = React.useState('');
+            const [selectedCategory, setSelectedCategory] = React.useState('Todos');
+            const [showSearch, setShowSearch] = React.useState(false);
+
+            // Lista de Diplomas
+            const diplomasList = [
+                {
+                    id: 1,
+                    title: "Diploma de Honor y Reconocimiento Académico",
+                    category: "Excelencia",
+                    code: "DIP-2026-001",
+                    date: "15 de Mayo, 2026",
+                    verified: true,
+                    imageUrl: "https://images.unsplash.com/photo-1589330694653-ded6df03f754?w=800&auto=format&fit=crop&q=80",
+                    description: "Después de tanto esfuerzo finalmente has dado con el resultado y tus esfuerzos han dado frutos de los cuales se te ha otorgado tu diploma que ha sido verificado por docentes y entes para que puedas continuar con tus demás estudios y encontrar oportunidades.",
+                    additionalText: "Este certificado avala la dedicación constante, el cumplimiento oportuno de las actividades y la participación destacada en el entorno educativo de EduNexus."
+                },
+                {
+                    id: 2,
+                    title: "Certificado de Desarrollo Web Frontend",
+                    category: "Tecnología",
+                    code: "DIP-2026-002",
+                    date: "20 de Junio, 2026",
+                    verified: true,
+                    imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&auto=format&fit=crop&q=80",
+                    description: "Otorgado por la finalización exitosa de los módulos de maquetación web, HTML5, CSS3 y ReactJS con un desempeño sobresaliente en la construcción de interfaces interactivas.",
+                    additionalText: "El estudiante demostró dominio en la maquetación responsiva, estructuración de componentes reutilizables y vinculación de estilos independientes."
+                },
+                {
+                    id: 3,
+                    title: "Diploma de Excelencia en Ciencias y Matemáticas",
+                    category: "Ciencias",
+                    code: "DIP-2026-003",
+                    date: "10 de Julio, 2026",
+                    verified: true,
+                    imageUrl: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800&auto=format&fit=crop&q=80",
+                    description: "Acreditación por el cumplimiento del programa avanzado de resolución de problemas lógicos, funciones lineales y análisis cartesiano.",
+                    additionalText: "Reconocimiento otorgado por mantener una calificación superior y demostrar alto razonamiento crítico en la solución de ejercicios prácticos."
+                }
+            ];
+
+            // Filtrado dinámico
+            const filteredDiplomas = diplomasList.filter(diploma => {
+                const matchesSearch = 
+                    diploma.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    diploma.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    diploma.additionalText.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    diploma.code.toLowerCase().includes(searchTerm.toLowerCase());
+
+                const matchesCategory = selectedCategory === 'Todos' || diploma.category === selectedCategory;
+                
+                return matchesSearch && matchesCategory;
+            });
+
+            const handleDownload = (title) => {
+                alert(`Iniciando descarga del diploma: ${title}`);
+            };
+
+            const handleShare = (code) => {
+                navigator.clipboard.writeText(`https://edunexus.edu/verify/${code}`);
+                alert(`Enlace de verificación copiado al portapapeles para el código: ${code}`);
+            };
+
+            return (
+                <div className="diplomas-page">
+                    {/* BARRA DE BÚSQUEDA ALINEADA TOTALMENTE A LA DERECHA */}
+                    <div className="search-bar-wrapper" style={{ display: 'flex', justifyContent: 'flex-end', padding: '1rem 2rem 0 2rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            {showSearch && (
+                                <input
+                                    type="text"
+                                    placeholder="Buscar diploma..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    autoFocus
+                                    className="search-input"
+                                />
+                            )}
+                            <button
+                                className="icon-btn"
+                                aria-label="Buscar"
+                                onClick={() => setShowSearch(!showSearch)}
+                                style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Contenido Principal */}
+                    <main className="diplomas-container">
+                        
+                        {/* Filtros por Categoría */}
+                        <div className="filter-chips">
+                            {['Todos', 'Excelencia', 'Tecnología', 'Ciencias'].map(cat => (
+                                <button
+                                    key={cat}
+                                    className={`chip-btn ${selectedCategory === cat ? 'active' : ''}`}
+                                    onClick={() => setSelectedCategory(cat)}
+                                >
+                                    {cat}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Lista de Diplomas Filtrados */}
+                        {filteredDiplomas.length > 0 ? (
+                            filteredDiplomas.map((item) => (
+                                <article key={item.id} className="diploma-item">
+                                    <div className="diploma-card">
+                                        <img 
+                                            src={item.imageUrl} 
+                                            alt={item.title} 
+                                            className="diploma-img"
+                                        />
+                                    </div>
+
+                                    <div className="message-box">
+                                        <div className="diploma-meta">
+                                            <span className="badge-code">Código: {item.code}</span>
+                                            {item.verified && (
+                                                <span className="badge-verified">✓ Verificado</span>
+                                            )}
+                                            <span className="badge-date">Emisión: {item.date}</span>
+                                        </div>
+
+                                        <h2>{item.title}</h2>
+                                        <p>{item.description}</p>
+                                        
+                                        <p className="additional-note">
+                                            {item.additionalText}
+                                        </p>
+
+                                        <div className="diploma-actions">
+                                            <button 
+                                                className="btn-action primary"
+                                                onClick={() => handleDownload(item.title)}
+                                            >
+                                                📥 Descargar PDF
+                                            </button>
+                                            <button 
+                                                className="btn-action secondary"
+                                                onClick={() => handleShare(item.code)}
+                                            >
+                                                🔗 Compartir Verificación
+                                            </button>
+                                        </div>
+                                    </div>
+                                </article>
+                            ))
+                        ) : (
+                            <div className="no-results-card">
+                                <p>No se encontraron diplomas que coincidan con la búsqueda "<strong>{searchTerm}</strong>".</p>
+                            </div>
+                        )}
+
+                        {/* Ilustración de Cierre */}
+                        <div className="illustration-card">
+                            <img 
+                                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&auto=format&fit=crop&q=80" 
+                                alt="Estudiantes en ceremonia de graduación" 
+                                className="illustration-img"
+                            />
+                        </div>
+                    </main>
+
+                    <footer className="footer-bar">
+                        <p>&copy; 2026 EduNexus. Todos los derechos reservados.</p>
+                    </footer>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<DiplomasView />);
+    </script>
+</body>
+</html>

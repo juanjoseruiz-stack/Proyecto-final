@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduNexus - Clases</title>
+
+    <!-- Hojas de estilo externas de la raíz -->
+    <link rel="stylesheet" href="../inicio.css">
+    <link rel="stylesheet" href="../styles.css">
+
+    <!-- React, ReactDOM y Babel por CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function Clases() {
+            const [searchTerm, setSearchTerm] = React.useState('');
+            const [showSearch, setShowSearch] = React.useState(false);
+
+            // Lista de materias/clases disponibles vinculadas a sus respectivos archivos HTML
+            const clasesItems = [
+                { id: 1, title: "MATEMÁTICAS", teacher: "Prof. Carlos Gómez", imageUrl: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=300&auto=format&fit=crop&q=80", link: "./clase-matematicas-live.html" },
+                { id: 2, title: "HISTORIA", teacher: "Dra. Elena Rostova", imageUrl: "https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=300&auto=format&fit=crop&q=80", link: "./clase-historia-live.html" },
+                { id: 3, title: "CIENCIAS Y FÍSICA", teacher: "Ing. Roberto Martínez", imageUrl: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=300&auto=format&fit=crop&q=80", link: "./clase-ciencias-y-fisica-live.html" },
+                { id: 4, title: "LITERATURA", teacher: "Lic. Sofía Morales", imageUrl: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=300&auto=format&fit=crop&q=80", link: "./clase-literatura-live.html" },
+                { id: 5, title: "PROGRAMACIÓN", teacher: "Ing. Ana Silva", imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=300&auto=format&fit=crop&q=80", link: "./clase-programacion-live.html" },
+                { id: 6, title: "INGLÉS", teacher: "Prof. John Doe", imageUrl: "https://images.unsplash.com/photo-1543269865-cbf427effbad?w=300&auto=format&fit=crop&q=80", link: "./clase-ingles-live.html" }
+            ];
+
+            const filteredClasses = clasesItems.filter(item =>
+                item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                item.teacher.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            const handleNavigate = (url) => {
+                window.location.href = url;
+            };
+
+            const handleGoBack = () => {
+                window.location.href = "../Inicio.html";
+            };
+
+            return (
+                <div className="dashboard-layout">
+                    <header className="top-bar">
+                        <div className="top-bar-left">
+                            <button className="icon-btn" aria-label="Volver" onClick={handleGoBack} title="Volver al menú">
+                                ⬅
+                            </button>
+                            <span className="app-title" onClick={handleGoBack} style={{ cursor: 'pointer' }}>
+                                EduNexus
+                            </span>
+                        </div>
+
+                        <div className="top-bar-right" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginLeft: 'auto' }}>
+                            {showSearch && (
+                                <input
+                                    type="text"
+                                    placeholder="Buscar clase o profesor..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    autoFocus
+                                    style={{
+                                        padding: '5px 10px',
+                                        borderRadius: '4px',
+                                        border: '1px solid #ccc',
+                                        outline: 'none'
+                                    }}
+                                />
+                            )}
+                            <button
+                                className="icon-btn"
+                                aria-label="Buscar"
+                                onClick={() => setShowSearch(!showSearch)}
+                                style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </header>
+
+                    <main className="main-container">
+                        <section className="news-banner">
+                            <h1 className="menu-title">Módulo de Clases</h1>
+                            <div className="news-box">
+                                <h2>AULA VIRTUAL Y CONTENIDO EN VIVO</h2>
+                                <p>
+                                    Selecciona una materia para ingresar a las sesiones en directo, grabaciones y material explicativo.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section className="menu-grid">
+                            {filteredClasses.length > 0 ? (
+                                filteredClasses.map(item => (
+                                    <div 
+                                        key={item.id} 
+                                        onClick={() => handleNavigate(item.link)} 
+                                        className="grid-card-link" 
+                                        style={{ 
+                                            cursor: 'pointer', 
+                                            textDecoration: 'none', 
+                                            color: 'inherit',
+                                            userSelect: 'none'
+                                        }}
+                                    >
+                                        <div className="grid-card">
+                                            <div className="card-image-wrapper">
+                                                <img src={item.imageUrl} alt={item.title} className="card-img" />
+                                            </div>
+                                            <h3 className="card-title">{item.title}</h3>
+                                            <p style={{ fontSize: '0.85rem', opacity: 0.8, marginTop: '4px', textAlign: 'center' }}>
+                                                {item.teacher}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <p style={{ gridColumn: '1 / -1', textAlign: 'center', opacity: 0.7 }}>
+                                    No se encontraron clases que coincidan con "{searchTerm}"
+                                </p>
+                            )}
+                        </section>
+                    </main>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Clases />);
+    </script>
+</body>
+
+</html>

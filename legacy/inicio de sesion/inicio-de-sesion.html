@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión | EduNexus</title>
+    <!-- Iconos de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Enlace a la hoja de estilos externa -->
+    <link rel="stylesheet" href="inicio-de-sesion.css">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- BARRA SUPERIOR -->
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <a href="#" class="icon-btn" title="Volver al inicio"><i class="fa-solid fa-arrow-left"></i></a>
+                <h1 class="app-title">EduNexus</h1>
+            </div>
+            <div>
+                <button class="icon-btn" title="Ayuda y Soporte"><i class="fa-solid fa-circle-question"></i></button>
+            </div>
+        </header>
+
+        <!-- CONTENEDOR PRINCIPAL -->
+        <main class="main-container">
+            <div class="news-banner">
+                <h2 class="menu-title">Acceso al Sistema</h2>
+            </div>
+
+            <div class="login-card">
+                <!-- Selector de Estudiante / Docente -->
+                <div class="role-selector">
+                    <button type="button" class="role-btn active" id="btn-student" onclick="switchRole('student')">
+                        <i class="fa-solid fa-user-graduate"></i> Estudiante
+                    </button>
+                    <button type="button" class="role-btn" id="btn-teacher" onclick="switchRole('teacher')">
+                        <i class="fa-solid fa-chalkboard-user"></i> Docente
+                    </button>
+                </div>
+
+                <!-- Formulario de Estudiante -->
+                <form id="form-student" class="form-section active-section" onsubmit="handleLogin(event, 'student')">
+                    <div class="form-group">
+                        <label for="student-code">Correo de Estudiante</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-id-card field-icon"></i>
+                            <input type="email" id="student-code" class="form-control" placeholder="estudiante@edunexus.edu" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="student-password">Contraseña</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock field-icon"></i>
+                            <input type="password" id="student-password" class="form-control" placeholder="••••••••" required>
+                        </div>
+                    </div>
+
+                    <div class="form-actions-row">
+                        <label class="remember-label">
+                            <input type="checkbox"> Recordar mis datos
+                        </label>
+                        <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        Ingresar como Estudiante <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <!-- Formulario de Docente -->
+                <form id="form-teacher" class="form-section" onsubmit="handleLogin(event, 'teacher')">
+                    <div class="form-group">
+                        <label for="teacher-email">Correo Institucional Docente</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-envelope field-icon"></i>
+                            <input type="email" id="teacher-email" class="form-control" placeholder="docente@edunexus.edu" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="teacher-password">Contraseña Académica</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-key field-icon"></i>
+                            <input type="password" id="teacher-password" class="form-control" placeholder="••••••••" required>
+                        </div>
+                    </div>
+
+                    <div class="form-actions-row">
+                        <label class="remember-label">
+                            <input type="checkbox"> Mantener sesión activa
+                        </label>
+                        <a href="#" class="forgot-link">Recuperar acceso</a>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        Ingresar como Docente <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <div class="divider">
+                    <span>O autenticarse con</span>
+                </div>
+
+                <button type="button" class="btn-google" onclick="handleGoogleLogin()">
+                    <i class="fa-brands fa-google" style="color: #38bdf8;"></i> Cuenta Institucional Google
+                </button>
+
+                <div class="login-footer-text">
+                    <p>¿Problemas para acceder? <a href="#">Contacta a Soporte TI</a></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Script de Validación y Redirección -->
+    <script>
+        // Credenciales unicas asignadas
+        const CREDENTIALS = {
+            student: {
+                email: "estudiante@edunexus.edu",
+                password: "EduNexus2026*"
+            },
+            teacher: {
+                email: "docente@edunexus.edu",
+                password: "EduNexus2026*"
+            }
+        };
+
+        function switchRole(role) {
+            const btnStudent = document.getElementById('btn-student');
+            const btnTeacher = document.getElementById('btn-teacher');
+            const formStudent = document.getElementById('form-student');
+            const formTeacher = document.getElementById('form-teacher');
+
+            if (role === 'student') {
+                btnStudent.classList.add('active');
+                btnTeacher.classList.remove('active');
+                formStudent.classList.add('active-section');
+                formTeacher.classList.remove('active-section');
+            } else {
+                btnTeacher.classList.add('active');
+                btnStudent.classList.remove('active');
+                formTeacher.classList.add('active-section');
+                formStudent.classList.remove('active-section');
+            }
+        }
+
+        function handleLogin(event, role) {
+            event.preventDefault();
+            
+            let enteredEmail, enteredPassword;
+
+            if (role === 'student') {
+                enteredEmail = document.getElementById('student-code').value.trim();
+                enteredPassword = document.getElementById('student-password').value;
+            } else {
+                enteredEmail = document.getElementById('teacher-email').value.trim();
+                enteredPassword = document.getElementById('teacher-password').value;
+            }
+
+            // Validar credenciales
+            if (enteredEmail === CREDENTIALS[role].email && enteredPassword === CREDENTIALS[role].password) {
+                // Si son correctas, redirige a inicio.html
+                window.location.href = 'http://127.0.0.1:5500/Inicio.html';
+            } else {
+                alert("❌ Correo o contraseña incorrectos.\n\n💡 Credencial de prueba:\nCorreo: " + CREDENTIALS[role].email + "\nContraseña: " + CREDENTIALS[role].password);
+            }
+        }
+
+        function handleGoogleLogin() {
+            // Acceso rápido mediante Google simulado
+            window.location.href = 'https://mail.google.com/mail/u/0/';
+        }
+    </script>
+</body>
+</html>

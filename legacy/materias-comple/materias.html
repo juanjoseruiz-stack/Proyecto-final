@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduNexus - Materias Complementarias</title>
+
+    <!-- React, ReactDOM y Babel por CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        /* ==========================================
+           1. VARIABLES Y ESTILOS GENERALES
+           ========================================== */
+        :root {
+            --bg-dark: #263d74;
+            --card-bg: rgba(30, 41, 59, 0.6);
+            --border-glow: rgba(56, 189, 248, 0.2);
+            --accent-cyan: #38bdf8;
+            --accent-indigo: #818cf8;
+            --accent-emerald: #34d399;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --shadow-glow: 0 0 25px rgba(56, 189, 248, 0.25);
+            --transition-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(129, 140, 248, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(52, 211, 153, 0.08) 0%, transparent 60%),
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            background-attachment: fixed;
+        }
+
+        /* ==========================================
+           2. LAYOUT Y BARRA SUPERIOR (.top-bar)
+           ========================================== */
+        .dashboard-layout {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .top-bar {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.4rem 0.6rem;
+            border-radius: 8px;
+            transition: all var(--transition-fast);
+        }
+
+        .icon-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Input de búsqueda estilizado en el TopBar */
+        .search-input {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-glow);
+            color: var(--text-main);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.9rem;
+            transition: all var(--transition-fast);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+        }
+
+        /* ==========================================
+           3. SECCIÓN PRINCIPAL Y TÍTULO ANIMADO
+           ========================================== */
+        .main-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        .news-banner {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .menu-title {
+            font-size: 2.75rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            display: inline-block;
+            cursor: pointer;
+            background: linear-gradient(
+                -45deg, 
+                #ffffff, 
+                #d1d5db, 
+                #6b7280, 
+                #d1d5db, 
+                #ffffff
+            );
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(1px 2px 0px rgba(0, 0, 0, 0.9))
+                    drop-shadow(3px 5px 4px rgba(0, 0, 0, 0.6))
+                    drop-shadow(0px 0px 12px rgba(255, 255, 255, 0.3));
+            animation: gradientMoveTitle 6s ease infinite;
+            transform-style: preserve-3d;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                        filter 0.4s ease;
+        }
+
+        .menu-title:hover {
+            transform: perspective(600px) rotateX(12deg) rotateY(-8deg) scale(1.05);
+            filter: drop-shadow(2px 6px 0px rgba(0, 0, 0, 0.9))
+                    drop-shadow(8px 15px 12px rgba(0, 0, 0, 0.7))
+                    drop-shadow(0px 0px 20px rgba(255, 255, 255, 0.6));
+        }
+
+        @keyframes gradientMoveTitle {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+          
+        .news-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            backdrop-filter: blur(12px);
+            border-radius: 14px;
+            padding: 1.5rem 2rem;
+            text-align: left;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .news-box h2 {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .news-box p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* ==========================================
+           4. GRID DE TARJETAS REACT (.menu-grid)
+           ========================================== */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.75rem;
+        }
+
+        .grid-card-link {
+            display: block;
+            outline: none;
+            text-decoration: none;
+        }
+
+        .grid-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            backdrop-filter: blur(16px);
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all var(--transition-fast);
+            height: 100%;
+        }
+
+        .grid-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-cyan);
+            box-shadow: var(--shadow-glow);
+            background: rgba(30, 41, 59, 0.85);
+        }
+
+        .card-image-wrapper {
+            width: 100%;
+            height: 150px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-fast);
+        }
+
+        .grid-card:hover .card-img {
+            transform: scale(1.05);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 0.03em;
+            margin-top: auto;
+        }
+
+        /* ==========================================
+           5. ADAPTACIÓN RESPONSIVA
+           ========================================== */
+        @media (max-width: 640px) {
+            .menu-title {
+                font-size: 2rem;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function MateriasMenu() {
+            const [searchTerm, setSearchTerm] = React.useState('');
+            const [showSearch, setShowSearch] = React.useState(false);
+
+            const materiasItems = [
+                { id: 1, title: "PROGRAMACIÓN WEB", imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=300&auto=format&fit=crop&q=80", link: "./programacion.html" },
+                { id: 2, title: "DISEÑO UX / UI", imageUrl: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=300&auto=format&fit=crop&q=80", link: "./diseno.html" },
+                { id: 3, title: "INGLÉS TÉCNICO", imageUrl: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=300&auto=format&fit=crop&q=80", link: "./ingles.html" },
+                { id: 4, title: "BASES DE DATOS", imageUrl: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=300&auto=format&fit=crop&q=80", link: "./bd.html" },
+                { id: 5, title: "CIENCIA DE DATOS", imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&auto=format&fit=crop&q=80", link: "./data.html" },
+                { id: 6, title: "LIDERAZGO Y GESTIÓN", imageUrl: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=300&auto=format&fit=crop&q=80", link: "./liderazgo.html" }
+            ];
+
+            const filteredMaterias = materiasItems.filter(item =>
+                item.title.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            const handleNavigate = (url) => {
+                window.location.href = url;
+            };
+
+            const handleGoBack = () => {
+                window.location.href = "../inicio.html";
+            };
+
+            return (
+                <div className="dashboard-layout">
+                    <header className="top-bar">
+                        <div className="top-bar-left">
+                            <button className="icon-btn" aria-label="Volver" onClick={handleGoBack} title="Volver al inicio">
+                                ⬅
+                            </button>
+                            <span className="app-title" onClick={handleGoBack} style={{ cursor: 'pointer' }}>
+                                EduNexus
+                            </span>
+                        </div>
+
+                        <div className="top-bar-right" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            {showSearch && (
+                                <input
+                                    type="text"
+                                    className="search-input"
+                                    placeholder="Buscar materia..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    autoFocus
+                                />
+                            )}
+                            <button
+                                className="icon-btn"
+                                aria-label="Buscar"
+                                onClick={() => setShowSearch(!showSearch)}
+                            >
+                                🔍
+                            </button>
+                        </div>
+                    </header>
+
+                    <main className="main-container">
+                        <section className="news-banner">
+                            <h1 className="menu-title">Materias Complementarias</h1>
+                            <div className="news-box">
+                                <h2>ASIGNATURAS OPTATIVAS DISPONIBLES</h2>
+                                <p>
+                                    Selecciona una de las materias complementarias para acceder a sus módulos de estudio, ejercicios interactivos y seguimiento de progreso.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section className="menu-grid">
+                            {filteredMaterias.length > 0 ? (
+                                filteredMaterias.map(item => (
+                                    <div 
+                                        key={item.id} 
+                                        onClick={() => handleNavigate(item.link)} 
+                                        className="grid-card-link"
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        <div className="grid-card">
+                                            <div className="card-image-wrapper">
+                                                <img src={item.imageUrl} alt={item.title} className="card-img" />
+                                            </div>
+                                            <h3 className="card-title">{item.title}</h3>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <p style={{ gridColumn: '1 / -1', textAlign: 'center', color: 'var(--text-muted)' }}>
+                                    No se encontraron materias para "{searchTerm}"
+                                </p>
+                            )}
+                        </section>
+                    </main>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<MateriasMenu />);
+    </script>
+</body>
+
+</html>

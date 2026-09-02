@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduNexus - Actividad Interactiva de Robótica</title>
+
+    <!-- HOJA DE ESTILOS FUTURISTA COMPARTIDA -->
+    <link rel="stylesheet" href="talleres.css">
+</head>
+<body>
+
+    <div class="talleres-page">
+        <!-- Encabezado Superior -->
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <button 
+                    id="btn-back"
+                    class="icon-btn" 
+                    aria-label="Volver al detalle"
+                >
+                    ⬅
+                </button>
+                <span class="app-title">práctica de robótica</span>
+            </div>
+
+            <div class="top-bar-right">
+                <button
+                    id="btn-menu"
+                    class="icon-btn"
+                    aria-label="Menú"
+                >
+                    ☰
+                </button>
+
+                <!-- Menú Desplegable Flotante -->
+                <div id="dropdown-menu" class="dropdown-menu" style="display: none;">
+                    <a href="../guias/guias.html">Guías</a>
+                    <a href="../clases/clases.html">Clases</a>
+                    <a href="#">Ocupaciones</a>
+                    <a href="../materias/materias.html">Materias complementarias</a>
+                    <button class="btn-add-action">+ Agregar</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenido Interactivo -->
+        <main class="talleres-container" style="max-width: 700px;">
+            <article class="taller-card" style="cursor: default; padding: 2rem; width: 100%;">
+                
+                <!-- Barra de Progreso -->
+                <div style="width: 100%; margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem;">
+                        <span>Módulo 1 de 4</span>
+                        <span>Progreso: 25%</span>
+                    </div>
+                    <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                        <div style="width: 25%; height: 100%; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-indigo));"></div>
+                    </div>
+                </div>
+
+                <!-- Título y Enunciado -->
+                <h2 id="question-title" style="font-size: 1.4rem; color: var(--accent-cyan); margin-bottom: 0.8rem;">
+                    <!-- Insertado por JS -->
+                </h2>
+
+                <p id="question-prompt" style="color: #f8fafc; font-size: 1.05rem; margin-bottom: 1.5rem; line-height: 1.5;">
+                    <!-- Insertado por JS -->
+                </p>
+
+                <!-- Opciones Seleccionables -->
+                <div id="options-container" style="display: flex; flex-direction: column; gap: 0.8rem; width: 100%; margin-bottom: 1.5rem;">
+                    <!-- Botones generados por JS -->
+                </div>
+
+                <!-- Retroalimentación en vivo -->
+                <div id="feedback-card" style="display: none; width: 100%; padding: 1rem; border-radius: 10px; margin-bottom: 1.5rem; color: #f8fafc;">
+                    <strong id="feedback-title"></strong>
+                    <p id="feedback-explanation" style="font-size: 0.9rem; margin-top: 0.4rem; opacity: 0.9;"></p>
+                </div>
+
+                <!-- Botones de Control -->
+                <div style="display: flex; gap: 1rem; width: 100%;">
+                    <button 
+                        id="btn-submit"
+                        class="btn-add-action" 
+                        disabled
+                        style="width: 100%; background: rgba(255,255,255,0.1); color: var(--text-muted); padding: 0.8rem; border-radius: 10px; cursor: not-allowed;"
+                    >
+                        Comprobar Respuesta
+                    </button>
+                    <button 
+                        id="btn-reset"
+                        class="btn-add-action" 
+                        style="display: none; width: 100%; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border-glow); color: #ffffff; padding: 0.8rem; border-radius: 10px; cursor: pointer;"
+                    >
+                        Intentar Nuevamente
+                    </button>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- JavaScript Vanilla -->
+    <script>
+        // Datos de la pregunta adaptados a Robótica
+        const questionData = {
+            id: 1,
+            title: "Desafío 1: Sensores y Ultrasonido",
+            prompt: "¿Qué sensor es el más adecuado para medir la distancia relativa hacia un obstáculo y evitar colisiones en un rover autónomo?",
+            options: [
+                { id: 'A', text: "A) Sensor de temperatura (DHT11)" },
+                { id: 'B', text: "B) Sensor ultrasónico (HC-SR04)", correct: true },
+                { id: 'C', text: "C) Potenciómetro analógico" },
+                { id: 'D', text: "D) Servo de posición continuo" }
+            ],
+            explanation: "¡Correcto! El sensor ultrasónico HC-SR04 emite ráfagas de sonido a alta frecuencia y mide el tiempo de retorno del eco para calcular distancias precisas a obstáculos."
+        };
+
+        // Estado de la aplicación
+        let showMenu = false;
+        let selectedOption = null;
+        let isSubmitted = false;
+
+        // Elementos del DOM
+        const btnMenu = document.getElementById('btn-menu');
+        const dropdownMenu = document.getElementById('dropdown-menu');
+        const btnBack = document.getElementById('btn-back');
+        const questionTitle = document.getElementById('question-title');
+        const questionPrompt = document.getElementById('question-prompt');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackCard = document.getElementById('feedback-card');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const feedbackExplanation = document.getElementById('feedback-explanation');
+        const btnSubmit = document.getElementById('btn-submit');
+        const btnReset = document.getElementById('btn-reset');
+
+        // Inicializar vista estática
+        questionTitle.textContent = `🤖 ${questionData.title}`;
+        questionPrompt.textContent = questionData.prompt;
+
+        // Toggle Menú
+        btnMenu.addEventListener('click', () => {
+            showMenu = !showMenu;
+            dropdownMenu.style.display = showMenu ? 'block' : 'none';
+        });
+
+        // Volver al detalle del taller de robótica
+        btnBack.addEventListener('click', () => {
+            window.location.href = "taller-robotica-detalle.html";
+        });
+
+        // Renderizar opciones
+        function renderOptions() {
+            optionsContainer.innerHTML = '';
+
+            questionData.options.forEach(opt => {
+                const button = document.createElement('button');
+                button.textContent = opt.text;
+                
+                // Estilos base
+                let background = 'rgba(15, 23, 42, 0.7)';
+                let border = '1px solid var(--border-glow)';
+                let boxShadow = 'none';
+
+                const isSelected = selectedOption === opt.id;
+
+                if (isSelected) {
+                    border = '1px solid var(--accent-cyan)';
+                    background = 'rgba(56, 189, 248, 0.2)';
+                    boxShadow = '0 0 12px rgba(56, 189, 248, 0.3)';
+                }
+
+                if (isSubmitted) {
+                    if (opt.correct) {
+                        border = '1px solid var(--accent-emerald)';
+                        background = 'rgba(52, 211, 153, 0.2)';
+                    } else if (isSelected && !opt.correct) {
+                        border = '1px solid #ef4444';
+                        background = 'rgba(239, 68, 68, 0.2)';
+                    }
+                }
+
+                button.style.cssText = `
+                    background: ${background};
+                    border: ${border};
+                    color: #f8fafc;
+                    padding: 0.9rem 1.2rem;
+                    border-radius: 10px;
+                    cursor: ${isSubmitted ? 'default' : 'pointer'};
+                    text-align: left;
+                    font-size: 0.95rem;
+                    transition: all 0.2s ease;
+                    box-shadow: ${boxShadow};
+                `;
+
+                button.addEventListener('click', () => {
+                    if (!isSubmitted) {
+                        selectedOption = opt.id;
+                        updateSubmitButton();
+                        renderOptions();
+                    }
+                });
+
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        // Actualizar botón de envío
+        function updateSubmitButton() {
+            if (selectedOption === null) {
+                btnSubmit.disabled = true;
+                btnSubmit.style.background = 'rgba(255,255,255,0.1)';
+                btnSubmit.style.color = 'var(--text-muted)';
+                btnSubmit.style.cursor = 'not-allowed';
+            } else {
+                btnSubmit.disabled = false;
+                btnSubmit.style.background = 'linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo))';
+                btnSubmit.style.color = '#ffffff';
+                btnSubmit.style.cursor = 'pointer';
+            }
+        }
+
+        // Evento Comprobar Respuesta
+        btnSubmit.addEventListener('click', () => {
+            if (selectedOption !== null) {
+                isSubmitted = true;
+                
+                // Mostrar retroalimentación
+                const isCorrect = selectedOption === 'B';
+                feedbackCard.style.display = 'block';
+                feedbackCard.style.background = isCorrect ? 'rgba(52, 211, 153, 0.15)' : 'rgba(239, 68, 68, 0.15)';
+                feedbackCard.style.border = `1px solid ${isCorrect ? 'var(--accent-emerald)' : '#ef4444'}`;
+                
+                feedbackTitle.textContent = isCorrect ? '¡Circuito Configurado Correctamente!' : 'Error en la Selección del Componente';
+                feedbackExplanation.textContent = questionData.explanation;
+
+                // Alternar botones
+                btnSubmit.style.display = 'none';
+                btnReset.style.display = 'block';
+
+                renderOptions();
+            }
+        });
+
+        // Evento Reiniciar
+        btnReset.addEventListener('click', () => {
+            selectedOption = null;
+            isSubmitted = false;
+            
+            feedbackCard.style.display = 'none';
+            btnSubmit.style.display = 'block';
+            btnReset.style.display = 'none';
+            
+            updateSubmitButton();
+            renderOptions();
+        });
+
+        // Inicializar renderizado de opciones
+        renderOptions();
+    </script>
+</body>
+</html>

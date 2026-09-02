@@ -1,0 +1,355 @@
+/* ==========================================
+   1. VARIABLES Y ESTILOS GENERALES
+   ========================================== */
+:root {
+    --bg-dark: #263d74;
+    --card-bg: rgba(30, 41, 59, 0.6);
+    --border-glow: rgba(56, 189, 248, 0.2);
+    
+    --accent-cyan: #38bdf8;
+    --accent-indigo: #818cf8;
+    --accent-emerald: #34d399;
+    
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    
+    --shadow-glow: 0 0 25px rgba(56, 189, 248, 0.25);
+    --transition-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--text-main);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-dark);
+
+    background-image: 
+        radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(129, 140, 248, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(52, 211, 153, 0.08) 0%, transparent 60%),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    background-attachment: fixed;
+}
+
+/* ==========================================
+   2. LAYOUT Y BARRA SUPERIOR (.top-bar)
+   ========================================== */
+.dashboard-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.top-bar {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+    transition: all var(--transition-fast);
+}
+
+.icon-btn:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.app-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ==========================================
+   3. SECCIÓN PRINCIPAL Y TÍTULO ANIMADO
+   ========================================== */
+.main-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    flex: 1;
+}
+
+.news-banner {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.menu-title {
+    font-size: 2.75rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    
+    background: linear-gradient(-45deg, #ffffff, #d1d5db, #6b7280, #d1d5db, #ffffff);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    filter: drop-shadow(1px 2px 0px rgba(0, 0, 0, 0.9))
+            drop-shadow(3px 5px 4px rgba(0, 0, 0, 0.6))
+            drop-shadow(0px 0px 12px rgba(255, 255, 255, 0.3));
+
+    animation: gradientMoveTitle 6s ease infinite;
+    transform-style: preserve-3d;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), filter 0.4s ease;
+}
+
+.menu-title:hover {
+    transform: perspective(600px) rotateX(12deg) rotateY(-8deg) scale(1.05);
+    filter: drop-shadow(2px 6px 0px rgba(0, 0, 0, 0.9))
+            drop-shadow(8px 15px 12px rgba(0, 0, 0, 0.7))
+            drop-shadow(0px 0px 20px rgba(255, 255, 255, 0.6));
+}
+
+@keyframes gradientMoveTitle {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.news-box {
+    background: var(--card-bg);
+    border: 1px solid var(--border-glow);
+    backdrop-filter: blur(12px);
+    border-radius: 14px;
+    padding: 1.5rem 2rem;
+    text-align: left;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.news-box h2 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+}
+
+.news-box p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* ==========================================
+   4. GRID DE TARJETAS REACT (.menu-grid)
+   ========================================== */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.75rem;
+}
+
+.grid-card-link {
+    display: block;
+    outline: none;
+}
+
+.grid-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-glow);
+    border-radius: 16px;
+    backdrop-filter: blur(16px);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all var(--transition-fast);
+    height: 100%;
+}
+
+.grid-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent-cyan);
+    box-shadow: var(--shadow-glow);
+    background: rgba(30, 41, 59, 0.85);
+}
+
+.card-image-wrapper {
+    width: 100%;
+    height: 150px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-fast);
+}
+
+.grid-card:hover .card-img {
+    transform: scale(1.05);
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.03em;
+    margin-top: auto;
+}
+
+/* ==========================================
+   5. ADAPTACIÓN RESPONSIVA
+   ========================================== */
+@media (max-width: 640px) {
+    .menu-title { font-size: 2rem; }
+    .menu-grid { grid-template-columns: 1fr; }
+}
+
+/* ==========================================
+   6. MENÚ LATERAL (SIDEBAR Y BADGES)
+   ========================================== */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -320px;
+    width: 280px;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(16px);
+    border-right: 1px solid var(--border-glow);
+    z-index: 1000;
+    transition: left var(--transition-fast);
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-header h2 {
+    color: var(--accent-cyan);
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.2rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: color var(--transition-fast);
+}
+
+.close-btn:hover {
+    color: #ef4444;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex-grow: 1;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    color: var(--text-main);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    transition: all var(--transition-fast);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-link:hover {
+    background: rgba(56, 189, 248, 0.15);
+    color: var(--accent-cyan);
+    transform: translateX(5px);
+}
+
+/* Badge de Notificaciones */
+.nav-badge {
+    background: var(--accent-cyan);
+    color: #0f172a;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+
+/* Botón de cerrar sesión */
+.logout-btn {
+    margin-top: auto;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.05);
+}
+
+.logout-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border-color: #ef4444;
+}

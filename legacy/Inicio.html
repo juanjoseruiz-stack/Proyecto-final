@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduNexus - Menú Principal</title>
+
+    <link rel="stylesheet" href="inicio.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- React, ReactDOM y Babel por CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function MainMenu() {
+            const [searchTerm, setSearchTerm] = React.useState('');
+            const [showSearch, setShowSearch] = React.useState(false);
+            const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+
+            const menuItems = [
+                { id: 1, title: "GUÍAS", imageUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=150&auto=format&fit=crop&q=80", alt: "Guías", link: "./guias/guias.html" },
+                { id: 2, title: "CLASES", imageUrl: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=150&auto=format&fit=crop&q=80", alt: "Clases", link: "./clases/clases.html" },
+                { id: 3, title: "TALLERES", imageUrl: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=150&auto=format&fit=crop&q=80", alt: "Talleres", link: "./talleres/talleres.html" },
+                { id: 4, title: "MATERIAS COMPLEMENTARIAS", imageUrl: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=150&auto=format&fit=crop&q=80", alt: "Materias Complementarias", link: "./materias-comple/materias.html" },
+                { id: 5, title: "PROGRESO", imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=150&auto=format&fit=crop&q=80", alt: "Progreso", link: "./progreso/progreso.html" },
+                { id: 6, title: "DIPLOMAS", imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=150&auto=format&fit=crop&q=80", alt: "Diplomas", link: "./diplomas/diplomas.html" }
+            ];
+
+            const sidebarNavItems = [
+                { id: 'perfil', label: '👤 Mi Perfil', link: 'http://127.0.0.1:5500/Opciones/Mi%20perfil/perfil.html' },
+                { id: 'notificaciones', label: '🔔 Notificaciones', link: 'http://127.0.0.1:5500/Opciones/Notificaciones/notificaciones.html', badge: 3 },
+                { id: 'config', label: '⚙️ Configuraciones', link: 'http://127.0.0.1:5500/Opciones/Configuraciones/configuraciones.html' },
+                { id: 'ayuda', label: '❓ Ayuda y Soporte', link: 'http://127.0.0.1:5500/Opciones/Ayuda/ayuda.html' }
+            ];
+
+            const filteredItems = menuItems.filter(item =>
+                item.title.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            const handleNavigate = (url) => {
+                window.location.href = url;
+            };
+
+            return (
+                <div className="dashboard-layout">
+                    {isSidebarOpen && (
+                        <div className="sidebar-overlay" onClick={() => setIsSidebarOpen(false)}></div>
+                    )}
+
+                    <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+                        <div className="sidebar-header">
+                            <h2>EduNexus</h2>
+                            <button className="close-btn" onClick={() => setIsSidebarOpen(false)}>×</button>
+                        </div>
+                        <nav className="sidebar-nav">
+                            {sidebarNavItems.map(item => (
+                                <a key={item.id} href={item.link} className="sidebar-link">
+                                    <span>{item.label}</span>
+                                    {item.badge && <span className="nav-badge">{item.badge}</span>}
+                                </a>
+                            ))}
+                            <a href="http://127.0.0.1:5500/inicio%20de%20sesion/inicio-de-sesion.html" className="sidebar-link logout-btn">
+                                🚪 Cerrar Sesión
+                            </a>
+                        </nav>
+                    </div>
+
+                    <header className="top-bar">
+                        <div className="top-bar-left">
+                            <button className="icon-btn" aria-label="Menú" onClick={() => setIsSidebarOpen(true)}>☰</button>
+                            <span className="app-title">EduNexus</span>
+                        </div>
+
+                        <div className="top-bar-right" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            {showSearch && (
+                                <input
+                                    type="text"
+                                    placeholder="Buscar..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    autoFocus
+                                    style={{
+                                        padding: '5px 10px',
+                                        borderRadius: '4px',
+                                        border: '1px solid #ccc',
+                                        outline: 'none',
+                                        color: '#333'
+                                    }}
+                                />
+                            )}
+                            <button
+                                className="icon-btn"
+                                aria-label="Buscar"
+                                onClick={() => setShowSearch(!showSearch)}
+                                style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </header>
+
+                    <main className="main-container">
+                        <section className="news-banner">
+                            <h1 className="menu-title">Menú Principal</h1>
+                            <div className="news-box">
+                                <h2>NOTICIAS Y ACTUALIZACIONES RECIENTES</h2>
+                                <p>
+                                    Se han agregado actualizaciones en algunas guías y talleres para elaborar y se han subido nuevas tareas.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section className="menu-grid">
+                            {filteredItems.length > 0 ? (
+                                filteredItems.map(item => (
+                                    <div 
+                                        key={item.id} 
+                                        onClick={() => handleNavigate(item.link)} 
+                                        className="grid-card-link" 
+                                        style={{ 
+                                            cursor: 'pointer', 
+                                            textDecoration: 'none', 
+                                            color: 'inherit',
+                                            userSelect: 'none'
+                                        }}
+                                    >
+                                        <div className="grid-card">
+                                            <div className="card-image-wrapper">
+                                                <img src={item.imageUrl} alt={item.alt} className="card-img" />
+                                            </div>
+                                            <h3 className="card-title">{item.title}</h3>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <p style={{ gridColumn: '1 / -1', textAlign: 'center', opacity: 0.7 }}>
+                                    No se encontraron resultados para "{searchTerm}"
+                                </p>
+                            )}
+                        </section>
+                    </main>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<MainMenu />);
+    </script>
+</body>
+
+</html>

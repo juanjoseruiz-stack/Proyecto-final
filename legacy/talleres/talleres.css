@@ -1,0 +1,497 @@
+/* ==========================================
+   1. VARIABLES Y ESTILOS GENERALES
+   ========================================== */
+:root {
+    --bg-dark: #263d74;               /* Azul noche oscuro */
+    --card-bg: rgba(30, 41, 59, 0.6);  /* Cristal esmerilado translúcido */
+    --border-glow: rgba(56, 189, 248, 0.2); /* Borde cyan translúcido */
+    
+    --accent-cyan: #38bdf8;           /* Cyan neón */
+    --accent-indigo: #818cf8;         /* Índigo brillante */
+    --accent-emerald: #34d399;        /* Verde esmeralda */
+    
+    --text-main: #f8fafc;             /* Texto principal claro */
+    --text-muted: #94a3b8;            /* Texto secundario */
+    
+    --shadow-glow: 0 0 25px rgba(56, 189, 248, 0.25);
+    --transition-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--text-main);
+    line-height: 1.6;
+    background-color: var(--bg-dark);
+
+    /* FONDO DINÁMICO FUTURISTA */
+    background-image: 
+        radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(129, 140, 248, 0.18) 0%, transparent 45%),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ==========================================
+   2. HEADER Y BARRA DE NAVEGACIÓN
+   ========================================== */
+.top-bar {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-glow);
+    padding: 1rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.app-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-transform: lowercase;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    position: relative;
+}
+
+.icon-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-main);
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: all var(--transition-fast);
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+/* CONTROL DEL BUSCADOR EN CSS PURO */
+.search-input {
+    display: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-glow);
+    background: rgba(30, 41, 59, 0.9);
+    color: var(--text-main);
+    outline: none;
+    font-size: 0.9rem;
+}
+
+#toggle-search:checked + .search-input {
+    display: inline-block;
+}
+
+/* ==========================================
+   3. MENÚ DESPLEGABLE CON INTERACCIÓN EN CSS PURO
+   ========================================== */
+.dropdown-menu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 220px;
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid var(--border-glow);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    display: none; /* Se oculta por defecto */
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 200; /* Queda por encima de la capa de cierre */
+}
+
+.dropdown-menu a {
+    color: var(--text-main);
+    text-decoration: none;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background var(--transition-fast);
+}
+
+.dropdown-menu a:hover {
+    background: rgba(56, 189, 248, 0.15);
+    color: var(--accent-cyan);
+}
+
+.btn-add-action {
+    display: block;
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    font-weight: 800;
+    font-size: 1rem;
+    padding: 0.8rem 1.2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+.btn-add-action:hover {
+    background: rgba(52, 211, 153, 0.2);
+    color: var(--accent-emerald);
+}
+
+/* CAPA INVISIBLE QUE CIERRA EL MENÚ AL HACER CLIC FUERA DE ÉL */
+.overlay-close {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 150;
+    background: transparent;
+}
+
+/* ACTIVACIÓN DE VISIBILIDAD MEDIANTE CHECKBOX EN CSS */
+#toggle-menu:checked ~ .dropdown-menu {
+    display: flex;
+}
+
+#toggle-menu:checked ~ .overlay-close {
+    display: block;
+}
+
+/* ==========================================
+   4. ESTRUCTURA Y CUADRÍCULA 2 COLUMNAS
+   ========================================== */
+.talleres-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.talleres-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+}
+
+.taller-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-glow);
+    border-radius: 12px;
+    padding: 1rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.taller-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-cyan);
+    box-shadow: var(--shadow-glow);
+    background: rgba(30, 41, 59, 0.85);
+}
+
+.card-image-wrapper {
+    width: 100%;
+    height: 160px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.card-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+    text-transform: lowercase;
+}
+
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-muted);
+}
+
+/* RESPONSIVE */
+@media (max-width: 550px) {
+    .talleres-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================
+   5. CUESTIONARIO E INTERACCIONES CSS PURO
+   ========================================== */
+
+.container-quiz {
+    max-width: 700px;
+    margin: 2rem auto;
+}
+
+.quiz-card {
+    cursor: default !important;
+    padding: 2rem !important;
+    width: 100%;
+}
+
+.quiz-card:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Barra de Progreso */
+.quiz-progress-wrapper {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.quiz-progress-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+}
+
+.quiz-progress-track {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.quiz-progress-fill {
+    width: 25%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-indigo));
+}
+
+/* Enunciados */
+.quiz-title {
+    font-size: 1.4rem;
+    color: var(--accent-cyan);
+    margin-bottom: 0.8rem;
+}
+
+.quiz-prompt {
+    color: var(--text-main);
+    font-size: 1.05rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.quiz-form {
+    width: 100%;
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+/* Opciones Seleccionables */
+.quiz-option {
+    display: block;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid var(--border-glow);
+    color: var(--text-main);
+    padding: 0.9rem 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.quiz-option:hover {
+    border-color: var(--accent-cyan);
+    background: rgba(56, 189, 248, 0.1);
+}
+
+.radio-opt {
+    display: none;
+}
+
+/* Highlight de Opción Seleccionada antes de Validar */
+#opt-a:checked ~ .options-container label[for="opt-a"],
+#opt-b:checked ~ .options-container label[for="opt-b"],
+#opt-c:checked ~ .options-container label[for="opt-c"],
+#opt-d:checked ~ .options-container label[for="opt-d"] {
+    border: 1px solid var(--accent-cyan);
+    background: rgba(56, 189, 248, 0.2);
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+}
+
+/* CONTROL DEL ÚNICO BOTÓN DE VALIDAR Y REINICIO */
+.btn-reset,
+.feedback-box {
+    display: none;
+}
+
+/* Estado Deshabilitado por Defecto del Botón de Validar (Sin opción seleccionada) */
+.btn-validate {
+    display: block;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Cuando se SELECCIONA alguna opción (Formulario Válido), activamos el Botón */
+.quiz-form:valid .btn-validate {
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+    color: #ffffff;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.quiz-form:valid .btn-validate:hover {
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+}
+
+/* AL HACER CLIC EN VALIDAR (#check-submitted:checked) */
+/* 1. Ocultar botón de validar y mostrar botón de reinicio */
+#check-submitted:checked ~ .controls-wrapper .btn-validate {
+    display: none !important;
+}
+
+#check-submitted:checked ~ .controls-wrapper .btn-reset {
+    display: block;
+}
+
+/* 2. Bloquear punteros de las opciones para no cambiarlas tras validar */
+#check-submitted:checked ~ .options-container .quiz-option {
+    pointer-events: none;
+}
+
+/* 3. Colores de Respuesta Correcta (Opción B) */
+#opt-b:checked ~ #check-submitted:checked ~ .options-container label[for="opt-b"] {
+    border: 1px solid var(--accent-emerald) !important;
+    background: rgba(52, 211, 153, 0.25) !important;
+}
+
+#opt-b:checked ~ #check-submitted:checked ~ .feedback-correct {
+    display: block;
+}
+
+/* 4. Colores de Respuesta Incorrecta (Opciones A, C, D) */
+#opt-a:checked ~ #check-submitted:checked ~ .options-container label[for="opt-a"],
+#opt-c:checked ~ #check-submitted:checked ~ .options-container label[for="opt-c"],
+#opt-d:checked ~ #check-submitted:checked ~ .options-container label[for="opt-d"] {
+    border: 1px solid #ef4444 !important;
+    background: rgba(239, 68, 68, 0.25) !important;
+}
+
+#opt-a:checked ~ #check-submitted:checked ~ .feedback-incorrect,
+#opt-c:checked ~ #check-submitted:checked ~ .feedback-incorrect,
+#opt-d:checked ~ #check-submitted:checked ~ .feedback-incorrect {
+    display: block;
+}
+
+/* Estilos de Feedback y Botones */
+.feedback-box {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    color: var(--text-main);
+}
+
+.feedback-box p {
+    font-size: 0.9rem;
+    margin-top: 0.4rem;
+    opacity: 0.9;
+}
+
+.feedback-correct {
+    background: rgba(52, 211, 153, 0.15);
+    border: 1px solid var(--accent-emerald);
+}
+
+.feedback-incorrect {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid #ef4444;
+}
+
+.controls-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+.btn-quiz {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 1rem;
+    border: none;
+    box-sizing: border-box;
+    transition: all var(--transition-fast);
+}
+
+.btn-reset {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-glow);
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.btn-reset:hover {
+    background: rgba(255, 255, 255, 0.2);
+}

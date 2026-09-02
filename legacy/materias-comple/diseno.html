@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduNexus - Diseño UX / UI</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="diseno.css">
+</head>
+<body>
+    <header class="top-bar">
+        <span class="app-title">EduNexus</span>
+    </header>
+
+    <div id="react-section"></div>
+
+    <script type="text/babel">
+        const initialData = {
+            title: "Diseño UX / UI",
+            modules: [
+                { id: 1, title: "Unidad 1: Investigación de Usuarios", lessons: [{ id: "1.1", name: "1.1 Personas y User Journeys", done: true }, { id: "1.2", name: "1.2 Entrevistas y Wireframes", done: false }] },
+                { id: 2, title: "Unidad 2: Prototipado e Interfaz", lessons: [{ id: "2.1", name: "2.1 Design Systems y Figma", done: false }, { id: "2.2", name: "2.2 Usabilidad y Microinteracciones", done: false }] }
+            ]
+        };
+
+        function CoursePage() {
+            const [modules, setModules] = React.useState(initialData.modules);
+            const toggleLesson = (mId, lId) => setModules(prev => prev.map(m => m.id !== mId ? m : { ...m, lessons: m.lessons.map(l => l.id === lId ? { ...l, done: !l.done } : l) }));
+
+            return (
+                <main className="main-container">
+                    <a href="./materias.html" className="btn-back">&larr; Volver a Materias</a>
+                    
+                    <div className="course-card">
+                        <h1 style={{ color: '#ffffff' }}>{initialData.title}</h1>
+                    </div>
+
+                    {modules.map(m => (
+                        <article key={m.id} className="course-card">
+                            <h3 style={{ color: 'var(--accent-cyan)', marginBottom: '0.8rem' }}>{m.title}</h3>
+                            <ul className="lessons-list">
+                                {m.lessons.map(l => (
+                                    <li key={l.id} className={`lesson-item ${l.done ? 'completed' : ''}`} onClick={() => toggleLesson(m.id, l.id)}>
+                                        <span>{l.done ? '✓' : '○'}</span>
+                                        <span>{l.name}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </article>
+                    ))}
+                </main>
+            );
+        }
+        ReactDOM.createRoot(document.getElementById('react-section')).render(<CoursePage />);
+    </script>
+</body>
+</html>

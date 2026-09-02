@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduNexus - Progreso</title>
+    
+    <!-- CSS de estilos -->
+    <link rel="stylesheet" href="progreso.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <h1>EduNexus</h1>
+            <nav>
+                <a href="../Inicio.html">Inicio</a>
+            </nav>
+        </div>
+    </header>
+
+    <div id="react-progress-section"></div>
+
+    <footer>
+        <p>&copy; 2026 EduNexus. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        const userProgress = [
+            {
+                id: 1,
+                title: "Curso de Ciencias",
+                category: "Ciencias",
+                description: "Progreso: 18 de 24 lecciones completadas (75%).",
+                lessons: "18/24",
+                rating: "75%",
+                url: "ciencias.html"
+            },
+            {
+                id: 2,
+                title: "Curso de Matemáticas",
+                category: "Matematicas",
+                description: "Progreso: 9 de 18 lecciones completadas (50%).",
+                lessons: "9/18",
+                rating: "50%",
+                url: "matematicas.html"
+            },
+            {
+                id: 3,
+                title: "Curso de Lenguas",
+                category: "Lenguas",
+                description: "Progreso: 5 de 15 lecciones completadas (33%).",
+                lessons: "5/15",
+                rating: "33%",
+                url: "lenguas.html"
+            },
+            {
+                id: 4,
+                title: "Materias Complementarias",
+                category: "Complementarias",
+                description: "Progreso: 6 de 15 lecciones completadas (40%).",
+                lessons: "6/15",
+                rating: "40%",
+                url: "complementarias.html"
+            }
+        ];
+
+        function renderProgressSection() {
+            const container = document.getElementById('react-progress-section');
+
+            let coursesHTML = userProgress.map(course => `
+                <article class="course-card">
+                    <div class="card-content">
+                        <span class="course-category">${course.category}</span>
+                        <h3>${course.title}</h3>
+                        <p>${course.description}</p>
+                        ${course.url !== "#" ? `
+                            <a href="${course.url}" class="btn-enter">
+                                <span>Ingresar al curso</span>
+                                <span class="arrow">&rarr;</span>
+                            </a>
+                        ` : ''}
+                    </div>
+                    <div class="card-footer">
+                        <span class="course-lessons">Lecciones: ${course.lessons}</span>
+                        <span class="course-rating">Completado: ${course.rating}</span>
+                    </div>
+                </article>
+            `).join('');
+
+            container.innerHTML = `
+                <section class="courses-section">
+                    <div class="section-header">
+                        <h2>Tu Progreso Académico</h2>
+                        <p>Consulta el avance de tus cursos inscritos.</p>
+                    </div>
+
+                    <div class="courses-grid">
+                        ${coursesHTML}
+                    </div>
+                </section>
+            `;
+        }
+
+        document.addEventListener('DOMContentLoaded', renderProgressSection);
+    </script>
+</body>
+</html>

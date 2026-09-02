@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduNexus - Liderazgo y Gestión</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="liderazgo.css">
+</head>
+<body>
+    <header class="top-bar">
+        <span class="app-title">EduNexus</span>
+    </header>
+
+    <div id="react-section"></div>
+
+    <script type="text/babel">
+        function CoursePage() {
+            return (
+                <main className="main-container">
+                    <a href="./materias.html" className="btn-back">&larr; Volver a Materias</a>
+                    <div className="course-card">
+                        <h1 style={{ color: 'var(--accent-cyan)', marginBottom: '1rem' }}>Liderazgo y Gestión</h1>
+                        <p style={{ color: 'var(--text-muted)' }}>
+                            Desarrolla habilidades blandas, metodologías ágiles (Scrum, Kanban), gestión de proyectos y resolución de conflictos en entornos dinámicos.
+                        </p>
+                    </div>
+                </main>
+            );
+        }
+        ReactDOM.createRoot(document.getElementById('react-section')).render(<CoursePage />);
+    </script>
+</body>
+</html>

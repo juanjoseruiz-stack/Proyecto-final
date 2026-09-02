@@ -1,0 +1,250 @@
+/* ==========================================
+   1. VARIABLES Y ESTILOS GENERALES
+   ========================================== */
+:root {
+    /* Paleta cromática vibrante */
+    --bg-dark: #263d74;               /* Azul noche muy oscuro */
+    --card-bg: rgba(30, 41, 59, 0.6);  /* Cristal esmerilado translúcido */
+    --border-glow: rgba(56, 189, 248, 0.2); /* Borde cyan translúcido */
+    
+    --accent-cyan: #38bdf8;           /* Cyan neón */
+    --accent-indigo: #818cf8;         /* Índigo brillante */
+    --accent-emerald: #34d399;        /* Verde esmeralda */
+    
+    --text-main: #f8fafc;             /* Texto principal ultra claro */
+    --text-muted: #94a3b8;            /* Texto secundario */
+    
+    --shadow-glow: 0 0 25px rgba(56, 189, 248, 0.25);
+    --transition-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--text-main);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-dark);
+
+    /* FONDO DINÁMICO: Luces de Neón Radial y Malla Futurista */
+    background-image: 
+        radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(129, 140, 248, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(52, 211, 153, 0.08) 0%, transparent 60%),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    background-attachment: fixed;
+}
+
+/* ==========================================
+   2. LAYOUT Y BARRA SUPERIOR (.top-bar)
+   ========================================== */
+.dashboard-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.top-bar {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-bar-left,
+.top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.app-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
+
+/* ==========================================
+   3. SECCIÓN PRINCIPAL Y TÍTULO ANIMADO
+   ========================================== */
+.main-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    flex: 1;
+    text-align: center;
+}
+
+/* TÍTULO ANIMADO EN PERSPECTIVA 3D */
+.menu-title {
+    font-size: 2.75rem;
+    font-weight: 900;
+    margin-bottom: 2rem;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    
+    /* Degradado base en tonos blanco / gris */
+    background: linear-gradient(
+        -45deg, 
+        #ffffff, 
+        #d1d5db, 
+        #6b7280, 
+        #d1d5db, 
+        #ffffff
+    );
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* Capas de sombra 3D base */
+    filter: drop-shadow(1px 2px 0px rgba(0, 0, 0, 0.9))
+            drop-shadow(3px 5px 4px rgba(0, 0, 0, 0.6))
+            drop-shadow(0px 0px 12px rgba(255, 255, 255, 0.3));
+
+    /* Animación de color */
+    animation: gradientMoveTitle 6s ease infinite;
+
+    /* Propiedades 3D */
+    transform-style: preserve-3d;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                filter 0.4s ease;
+}
+
+.menu-title:hover {
+    transform: perspective(600px) rotateX(12deg) rotateY(-8deg) scale(1.05);
+    filter: drop-shadow(2px 6px 0px rgba(0, 0, 0, 0.9))
+            drop-shadow(8px 15px 12px rgba(0, 0, 0, 0.7))
+            drop-shadow(0px 0px 20px rgba(255, 255, 255, 0.6));
+}
+
+@keyframes gradientMoveTitle {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ==========================================
+   4. GRID Y TARJETAS DE GUÍAS (.menu-grid)
+   ========================================== */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.75rem;
+    text-align: left;
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    outline: none;
+    height: 100%;
+}
+
+.grid-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-glow);
+    border-radius: 16px;
+    backdrop-filter: blur(16px);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all var(--transition-fast);
+    height: 100%;
+    overflow: hidden;
+}
+
+.grid-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent-cyan);
+    box-shadow: var(--shadow-glow);
+    background: rgba(30, 41, 59, 0.85);
+}
+
+.card-image-wrapper {
+    width: 100%;
+    height: 150px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    background-color: rgba(15, 23, 42, 0.5);
+}
+
+.card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-fast);
+}
+
+.grid-card:hover .card-img {
+    transform: scale(1.05);
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.03em;
+    margin-top: auto;
+    padding: 0.5rem 0 0 0;
+}
+
+/* ==========================================
+   5. ADAPTACIÓN RESPONSIVA
+   ========================================== */
+@media (max-width: 640px) {
+    .menu-title {
+        font-size: 2rem;
+    }
+    
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .top-bar {
+        padding: 1rem;
+    }
+}

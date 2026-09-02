@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduNexus - Detalle Taller #2 Robótica</title>
+    <!-- Mantiene la misma hoja de estilos del proyecto -->
+    <link rel="stylesheet" href="talleres.css">
+</head>
+<body>
+
+    <div class="talleres-page">
+        <!-- Encabezado Superior -->
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <!-- Retorna al catálogo principal de talleres -->
+                <a href="talleres.html" class="icon-btn" aria-label="Volver a talleres" title="Volver a talleres">
+                    ⬅
+                </a>
+                <a href="talleres.html" class="app-title">
+                    taller #2 de robótica
+                </a>
+            </div>
+
+            <div class="top-bar-right">
+                <input type="checkbox" id="toggle-search" class="state-toggle" hidden>
+                <input type="text" class="search-input" placeholder="Buscar en la lección...">
+                
+                <label for="toggle-search" class="icon-btn" aria-label="Buscar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </label>
+
+                <nav class="dropdown-menu">
+                    <a href="../guias/guias.html">Guías</a>
+                    <a href="../clases/clases.html">Clases</a>
+                    <a href="#">Ocupaciones</a>
+                    <a href="../materias/materias.html">Materias complementarias</a>
+                    <a href="#" class="btn-add-action">+ Agregar</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Vista de Detalle -->
+        <main class="talleres-container">
+            <article class="taller-card" style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+                <div class="card-image-wrapper" style="height: 280px; margin-bottom: 1.5rem;">
+                    <img 
+                        src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80" 
+                        alt="Taller de Robótica" 
+                        class="card-img" 
+                    />
+                </div>
+                
+                <h2 class="card-title" style="font-size: 1.5rem; margin-bottom: 1rem; color: #4facfe;">
+                    Ensamblaje y Programación de Microcontroladores
+                </h2>
+
+                <p style="color: #cbd5e1; line-height: 1.6; margin-bottom: 2rem;">
+                    En este taller práctico aprenderás la integración de sensores ultrasónicos y lógica de control en C++ para programar un rover autónomo capaz de esquivar obstáculos en tiempo real.
+                </p>
+
+                <!-- Botón de acción que conecta con la actividad -->
+                <a href="taller-robotica-actividad.html" class="btn-add-action" style="display: block; text-align: center; text-decoration: none; padding: 0.8rem 1.5rem;">
+                    🚀 Iniciar Actividad Interactiva
+                </a>
+            </article>
+        </main>
+    </div>
+
+</body>
+</html>

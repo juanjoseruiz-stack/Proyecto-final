@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduNexus - Talleres</title>
+    <!-- HOJA DE ESTILOS FUTURISTA INDEPENDIENTE -->
+    <link rel="stylesheet" href="talleres.css">
+</head>
+<body>
+
+    <div class="talleres-page">
+        <!-- Encabezado Superior -->
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <a href="../Inicio.html" class="icon-btn" aria-label="Volver" title="Volver al menú">
+                    ⬅
+                </a>
+                <a href="../Inicio.html" class="app-title">
+                    talleres
+                </a>
+            </div>
+
+            <div class="top-bar-right">
+                <!-- Checkbox para mostrar/ocultar Búsqueda (Sin JS) -->
+                <input type="checkbox" id="toggle-search" class="state-toggle" hidden>
+                <input type="text" class="search-input" placeholder="Buscar taller...">
+                
+                <label for="toggle-search" class="icon-btn" aria-label="Buscar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </label>
+
+                <!-- Capa invisible para cerrar el menú al hacer clic en cualquier parte fuera -->
+                <label for="toggle-menu" class="overlay-close"></label>
+
+                <!-- Menú Desplegable Flotante -->
+                <nav class="dropdown-menu">
+                    <a href="../guias/guias.html">Guías</a>
+                    <a href="../clases/clases.html">Clases</a>
+                    <a href="#">Ocupaciones</a>
+                    <a href="../materias/materias.html">Materias complementarias</a>
+                    <a href="#" class="btn-add-action">+ Agregar</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Contenido Principal -->
+        <main class="talleres-container">
+            <section class="talleres-grid">
+                
+                <!-- Taller #1 -->
+                <a href="taller-ciencias.html" class="taller-card">
+                    <div class="card-image-wrapper">
+                        <img 
+                            src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&auto=format&fit=crop&q=80" 
+                            alt="Taller de Ciencias" 
+                            class="card-img" 
+                        />
+                    </div>
+                    <h3 class="card-title">taller #1 de ciencias</h3>
+                </a>
+
+                <!-- Taller #2 (Robótica con enlace a su detalle) -->
+                <a href="taller-robotica-detalle.html" class="taller-card">
+                    <div class="card-image-wrapper">
+                        <img 
+                            src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&auto=format&fit=crop&q=80" 
+                            alt="Taller de Robótica" 
+                            class="card-img" 
+                        />
+                    </div>
+                    <h3 class="card-title">taller #2 de robótica</h3>
+                </a>
+
+                <!-- Taller #3 -->
+                <a href="taller-matematicas-detalle.html" class="taller-card">
+                    <div class="card-image-wrapper">
+                        <img 
+                            src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&auto=format&fit=crop&q=80" 
+                            alt="Taller de Matemáticas" 
+                            class="card-img" 
+                        />
+                    </div>
+                    <h3 class="card-title">taller de matematicas #2</h3>
+                </a>
+
+                <!-- Taller #4 -->
+                <a href="taller-ingles.html" class="taller-card">
+                    <div class="card-image-wrapper">
+                        <img 
+                            src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=400&auto=format&fit=crop&q=80" 
+                            alt="Taller de Inglés" 
+                            class="card-img" 
+                        />
+                    </div>
+                    <h3 class="card-title">Taller de ingles #5</h3>
+                </a>
+
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>

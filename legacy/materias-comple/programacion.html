@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduNexus - Programación Web</title>
+    <link rel="stylesheet" href="../progreso.css">
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="progrmacion.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1>EduNexus</h1>
+            <nav>
+                <a href="../Inicio.html">Inicio</a>
+                <a href="clases.html">Clases</a>
+                <a href="diplomas.html">Diplomas</a>
+                <a href="progreso.html" class="active">Progreso</a>
+            </nav>
+        </div>
+    </header>
+
+    <div id="react-section"></div>
+
+    <footer><p>&copy; 2026 EduNexus. Todos los derechos reservados.</p></footer>
+
+    <script type="text/babel">
+        const initialData = {
+            title: "Programación Web",
+            category: "Tecnología",
+            modules: [
+                {
+                    id: 1, title: "Unidad 1: HTML5 y Estructura Semántica",
+                    lessons: [
+                        { id: "1.1", name: "1.1 Etiquetas Semánticas y Accesibilidad", done: true },
+                        { id: "1.2", name: "1.2 Formularios y Validaciones", done: true },
+                        { id: "1.3", name: "1.3 Multimedia e Incrustaciones", done: false }
+                    ]
+                },
+                {
+                    id: 2, title: "Unidad 2: CSS3 Moderno y Layouts",
+                    lessons: [
+                        { id: "2.1", name: "2.1 Flexbox y Responsive Design", done: false },
+                        { id: "2.2", name: "2.2 CSS Grid Layout", done: false },
+                        { id: "2.3", name: "2.3 Variables y Animaciones CSS", done: false }
+                    ]
+                }
+            ]
+        };
+
+        function CoursePage() {
+            const [modules, setModules] = React.useState(initialData.modules);
+            const toggleLesson = (mId, lId) => {
+                setModules(prev => prev.map(m => m.id !== mId ? m : {
+                    ...m, lessons: m.lessons.map(l => l.id === lId ? { ...l, done: !l.done } : l)
+                }));
+            };
+            const total = modules.reduce((a, m) => a + m.lessons.length, 0);
+            const done = modules.reduce((a, m) => a + m.lessons.filter(l => l.done).length, 0);
+            const progress = total > 0 ? Math.round((done / total) * 100) : 0;
+
+            return (
+                <section className="courses-section">
+                    <a href="./materias.html" className="btn-enter btn-back" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', textDecoration: 'none' }}>
+                        <span className="arrow">&larr;</span> Volver a Materias
+                    </a>
+                    <div className="section-header">
+                        <h2>{initialData.title}</h2>
+                        <p>Avance general: <strong>{progress}%</strong> ({done} de {total} lecciones)</p>
+                    </div>
+                    <div className="courses-grid" style={{ marginTop: '2rem' }}>
+                        {modules.map(m => (
+                            <article key={m.id} className="course-card">
+                                <div className="card-content">
+                                    <h3>{m.title}</h3>
+                                    <ul className="lessons-list">
+                                        {m.lessons.map(l => (
+                                            <li key={l.id} className={`lesson-item ${l.done ? 'completed' : 'pending'}`} onClick={() => toggleLesson(m.id, l.id)} style={{ cursor: 'pointer' }}>
+                                                <span>{l.done ? '✓ ' : '○ '}</span><span>{l.name}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                </section>
+            );
+        }
+        ReactDOM.createRoot(document.getElementById('react-section')).render(<CoursePage />);
+    </script>
+</body>
+</html>
