@@ -1,0 +1,165 @@
+.diplomas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.75rem;
+}
+
+.diploma-card {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.diploma-img-wrapper {
+  position: relative;
+  height: 190px;
+}
+
+.diploma-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.diploma-badge-overlay {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-glow);
+}
+
+.award-badge-icon {
+  color: #ffffff;
+}
+
+.diploma-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  flex: 1;
+}
+
+.diploma-body h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.diploma-date {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.diploma-code {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+
+  code {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    color: var(--color-accent-primary);
+    font-weight: 700;
+  }
+}
+
+.diploma-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.diploma-actions button {
+  justify-content: center;
+}
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.diploma-modal {
+  max-width: 650px;
+  width: 100%;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  background: var(--color-bg-main);
+  animation: fadeIn 0.3s ease;
+}
+
+.diploma-certificate-frame {
+  border: 4px double var(--color-accent-primary);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius-sm);
+}
+
+.modal-award-icon {
+  color: #f59e0b;
+}
+
+.diploma-certificate-frame h2 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.cert-sub {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.cert-student-name {
+  font-size: 1.6rem;
+  font-weight: 800;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cert-desc {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+.cert-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.cert-meta-info {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-top: 0.5rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}

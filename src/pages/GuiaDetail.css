@@ -1,0 +1,96 @@
+.guide-reader-container {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.reader-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1.5rem;
+}
+
+.reader-title-area h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0.5rem 0;
+}
+
+.reader-meta {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.reader-header-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.reader-document-preview {
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: var(--radius-md);
+  padding: 3rem;
+  border: 1px solid var(--border-color);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.preview-page {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  line-height: 1.7;
+}
+
+.preview-page h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-accent-primary);
+}
+
+.divider {
+  border: none;
+  height: 1px;
+  background: var(--border-color);
+}
+
+.learning-objectives {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.learning-objectives li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.check-icon {
+  color: #4ade80;
+}
+
+.preview-callout {
+  padding: 1.25rem;
+  margin-top: 1rem;
+  border-left: 4px solid var(--color-accent-primary);
+}
+
+.preview-callout h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.preview-callout p {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}

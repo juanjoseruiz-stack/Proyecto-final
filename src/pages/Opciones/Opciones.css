@@ -1,0 +1,224 @@
+.opciones-card {
+  padding: 2.5rem;
+  max-width: 800px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.opciones-grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 1.75rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.profile-header-area {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.avatar-wrapper {
+  position: relative;
+}
+
+.profile-avatar-large {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid var(--color-accent-primary);
+  object-fit: cover;
+}
+
+.change-avatar-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.profile-titles h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 0.35rem;
+}
+
+.opciones-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.opciones-form input,
+.opciones-form textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: rgba(15, 23, 42, 0.6);
+  color: var(--color-text-primary);
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+
+  &:focus {
+    border-color: var(--color-accent-primary);
+  }
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.saved-badge {
+  color: #4ade80;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* Notifications List */
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 800px;
+}
+
+.notification-item {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+
+  &.unread {
+    border-left: 4px solid var(--color-accent-primary);
+    background: var(--gradient-card);
+  }
+}
+
+.notif-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent-light);
+  color: var(--color-accent-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notif-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.notif-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.notif-header h3 {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.notif-time {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.notif-body p {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.mark-read-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Configuraciones */
+.config-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.config-section h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.config-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.config-info span {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.config-info p {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.toggle-switch {
+  width: 42px;
+  height: 22px;
+  accent-color: var(--color-accent-primary);
+}
+
+/* FAQ */
+.faq-section {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.faq-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.faq-item h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-accent-primary);
+}
+
+.faq-item p {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
