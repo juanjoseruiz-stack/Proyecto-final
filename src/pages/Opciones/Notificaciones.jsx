@@ -10,7 +10,7 @@ export const Notificaciones = () => {
   return (
     <div className="page-container">
       <div className="page-header">
-        <Link to="/" className="back-btn">
+        <Link to="/inicio" className="back-btn">
           <ArrowLeft size={18} />
           <span>Volver al Inicio</span>
         </Link>

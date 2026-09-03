@@ -29,7 +29,7 @@ export const Header = () => {
           <Menu size={22} />
         </button>
 
-        <Link to="/" className="app-brand">
+        <Link to="/inicio" className="app-brand">
           <div className="brand-icon">
             <BookOpen size={20} color="#ffffff" />
           </div>
@@ -76,7 +76,10 @@ export const Header = () => {
 
         <Link to="/perfil" className="profile-chip" title="Mi Perfil">
           <img src={user.avatar} alt={user.name} className="profile-chip-avatar" />
-          <span className="profile-chip-name">{user.name.split(' ')[0]}</span>
+          <div className="profile-chip-info">
+            <span className="profile-chip-name">{user.name.split(' ')[0]}</span>
+            <span className="profile-chip-role">{user.roleType === 'teacher' ? 'Docente' : 'Estudiante'}</span>
+          </div>
         </Link>
       </div>
     </header>

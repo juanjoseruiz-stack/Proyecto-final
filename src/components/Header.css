@@ -121,7 +121,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.3rem 0.8rem 0.3rem 0.3rem;
+  padding: 0.3rem 0.85rem 0.3rem 0.3rem;
   border-radius: var(--radius-full);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-color);
@@ -140,8 +140,20 @@
   object-fit: cover;
 }
 
+.profile-chip-info {
+  display: flex;
+  flex-direction: column;
+}
+
 .profile-chip-name {
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-text-primary);
+  line-height: 1.1;
+}
+
+.profile-chip-role {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-accent-primary);
 }

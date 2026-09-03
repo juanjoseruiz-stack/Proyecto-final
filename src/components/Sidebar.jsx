@@ -25,7 +25,7 @@ export const Sidebar = () => {
   const handleClose = () => setIsSidebarOpen(false);
 
   const mainNavItems = [
-    { id: 'inicio', label: 'Inicio', icon: Home, link: '/' },
+    { id: 'inicio', label: 'Inicio', icon: Home, link: '/inicio' },
     { id: 'guias', label: 'Guías de Estudio', icon: BookOpen, link: '/guias' },
     { id: 'clases', label: 'Clases en Vivo', icon: Video, link: '/clases' },
     { id: 'talleres', label: 'Talleres Interactivos', icon: Sliders, link: '/talleres' },

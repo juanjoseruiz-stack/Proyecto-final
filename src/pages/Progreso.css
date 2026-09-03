@@ -123,3 +123,67 @@
   width: 45px;
   text-align: right;
 }
+
+/* Teacher Students Table */
+.teacher-students-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+}
+
+.st-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.st-grade {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.st-avg {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--color-accent-primary);
+}
+
+.st-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+
+  &.good {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+  }
+
+  &.alert {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+  }
+}
