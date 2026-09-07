@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { fetchNotificaciones, markNotificacionAsRead } from '../services/supabaseService';
 
 const AppContext = createContext();
 
@@ -41,11 +43,57 @@ export const AppProvider = ({ children }) => {
   
   const [user, setUser] = useState(STUDENT_USER);
   const [notifications, setNotifications] = useState(STUDENT_NOTIFICATIONS);
+  const [session, setSession] = useState(null);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('edunexus_theme', theme);
   }, [theme]);
+
+  // Escuchar sesión de Supabase Auth si está configurado
+  useEffect(() => {
+    if (!isSupabaseConfigured) return;
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if (session?.user) {
+        syncSupabaseUser(session.user);
+      }
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (session?.user) {
+        syncSupabaseUser(session.user);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const syncSupabaseUser = async (sbUser) => {
+    const roleType = sbUser.user_metadata?.roleType || 'student';
+    const isTeacher = roleType === 'teacher';
+    
+    setUser({
+      id: sbUser.id,
+      roleType,
+      name: sbUser.user_metadata?.name || (isTeacher ? 'Prof. Registrado' : 'Estudiante Registrado'),
+      email: sbUser.email,
+      avatar: sbUser.user_metadata?.avatar || (isTeacher ? TEACHER_USER.avatar : STUDENT_USER.avatar),
+      role: isTeacher ? 'Docente Titular' : 'Estudiante Activo',
+      department: isTeacher ? 'Ciencias General' : undefined,
+      level: !isTeacher ? 'Grado Registrado' : undefined
+    });
+
+    // Intentar cargar notificaciones desde Supabase
+    const remoteNotifs = await fetchNotificaciones(roleType);
+    if (remoteNotifs && remoteNotifs.length > 0) {
+      setNotifications(remoteNotifs);
+    } else {
+      setNotifications(isTeacher ? TEACHER_NOTIFICATIONS : STUDENT_NOTIFICATIONS);
+    }
+  };
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
@@ -63,6 +111,9 @@ export const AppProvider = ({ children }) => {
 
   const markNotificationAsRead = (id) => {
     setNotifications(prev => prev.map(n => n.id === id ? { ...n, unread: false } : n));
+    if (isSupabaseConfigured) {
+      markNotificacionAsRead(id);
+    }
   };
 
   const unreadNotificationsCount = notifications.filter(n => n.unread).length;
@@ -75,6 +126,8 @@ export const AppProvider = ({ children }) => {
       setIsSidebarOpen,
       user,
       setUser,
+      session,
+      isSupabaseConfigured,
       loginAsRole,
       notifications,
       unreadNotificationsCount,

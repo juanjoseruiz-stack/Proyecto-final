@@ -14,7 +14,8 @@ import {
   HelpCircle, 
   LogOut, 
   X,
-  Layers
+  Layers,
+  FolderKanban
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -30,6 +31,7 @@ export const Sidebar = () => {
     { id: 'clases', label: 'Clases en Vivo', icon: Video, link: '/clases' },
     { id: 'talleres', label: 'Talleres Interactivos', icon: Sliders, link: '/talleres' },
     { id: 'materias', label: 'Materias Complementarias', icon: Layers, link: '/materias' },
+    ...(user?.roleType === 'teacher' ? [{ id: 'publicaciones', label: 'Mis Publicaciones', icon: FolderKanban, link: '/mis-publicaciones' }] : []),
     { id: 'progreso', label: 'Mi Progreso', icon: TrendingUp, link: '/progreso' },
     { id: 'diplomas', label: 'Mis Diplomas', icon: Award, link: '/diplomas' }
   ];

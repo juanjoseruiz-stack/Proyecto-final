@@ -16,6 +16,7 @@ import { Materias } from './pages/Materias';
 import { MateriaDetail } from './pages/MateriaDetail';
 import { Progreso } from './pages/Progreso';
 import { Diplomas } from './pages/Diplomas';
+import { MisPublicaciones } from './pages/MisPublicaciones';
 import { Perfil } from './pages/Opciones/Perfil';
 import { Notificaciones } from './pages/Opciones/Notificaciones';
 import { Configuraciones } from './pages/Opciones/Configuraciones';
@@ -41,6 +42,7 @@ export function App() {
             <Route path="talleres/:id" element={<TallerDetail />} />
             <Route path="materias" element={<Materias />} />
             <Route path="materias/:id" element={<MateriaDetail />} />
+            <Route path="mis-publicaciones" element={<MisPublicaciones />} />
             <Route path="progreso" element={<Progreso />} />
             <Route path="diplomas" element={<Diplomas />} />
             
