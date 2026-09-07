@@ -99,14 +99,22 @@ export const AppProvider = ({ children }) => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
-  const loginAsRole = (roleType) => {
-    if (roleType === 'teacher') {
-      setUser(TEACHER_USER);
-      setNotifications(TEACHER_NOTIFICATIONS);
+  const loginAsRole = (roleType, customData = null) => {
+    const isTeacher = roleType === 'teacher';
+    const baseUser = isTeacher ? TEACHER_USER : STUDENT_USER;
+    
+    if (customData) {
+      setUser({
+        ...baseUser,
+        roleType,
+        name: customData.name || (isTeacher ? 'Prof. ' + (customData.email?.split('@')[0] || 'Docente') : customData.email?.split('@')[0] || baseUser.name),
+        email: customData.email || baseUser.email
+      });
     } else {
-      setUser(STUDENT_USER);
-      setNotifications(STUDENT_NOTIFICATIONS);
+      setUser(baseUser);
     }
+
+    setNotifications(isTeacher ? TEACHER_NOTIFICATIONS : STUDENT_NOTIFICATIONS);
   };
 
   const markNotificationAsRead = (id) => {

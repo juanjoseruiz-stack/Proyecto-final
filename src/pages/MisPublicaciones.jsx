@@ -1,5 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
+import { 
+  fetchGuias, 
+  fetchTalleres, 
+  fetchClasesLive, 
+  deleteGuia, 
+  deleteTaller, 
+  deleteClaseLive, 
+  updateGuia, 
+  updateTaller, 
+  updateClaseLive 
+} from '../services/supabaseService';
 import { 
   BookOpen, 
   Sliders, 
@@ -18,11 +29,11 @@ import {
 import './MisPublicaciones.css';
 
 export function MisPublicaciones() {
-  const { user } = useApp();
+  const { user, isSupabaseConfigured } = useApp();
   const [activeTab, setActiveTab] = useState('guias');
   const [searchQuery, setSearchQuery] = useState('');
   
-  // Estado local para publicaciones docentes (simulado + listo para Supabase)
+  // Estado local para publicaciones docentes (simulado + sincronizado con Supabase)
   const [guias, setGuias] = useState([
     { id: 1, title: 'Guía de Cálculo Diferencial', category: 'Matemáticas', grade: '11° Grado', date: '2026-09-01', downloads: 34 },
     { id: 2, title: 'Fundamentos de Robótica y Algoritmos', category: 'Tecnología', grade: '10° Grado', date: '2026-08-28', downloads: 58 },
@@ -39,36 +50,108 @@ export function MisPublicaciones() {
     { id: 2, title: 'Taller de Programación en Vivo', date: 'Ayer', status: 'Finalizada', viewers: 65 }
   ]);
 
+  useEffect(() => {
+    if (!isSupabaseConfigured) return;
+
+    fetchGuias().then(data => {
+      if (data && data.length > 0) {
+        setGuias(data.map(g => ({
+          id: g.id,
+          title: g.title,
+          category: g.category || 'General',
+          grade: g.grade || '11° Grado',
+          date: g.created_at ? g.created_at.slice(0, 10) : 'Reciente',
+          downloads: 12
+        })));
+      }
+    });
+
+    fetchTalleres().then(data => {
+      if (data && data.length > 0) {
+        setTalleres(data.map(t => ({
+          id: t.id,
+          title: t.title,
+          category: t.category || 'General',
+          difficulty: t.difficulty || 'Intermedio',
+          assignedTo: t.assigned_to || 'Todos',
+          dueDate: t.due_date || 'Próximamente'
+        })));
+      }
+    });
+
+    fetchClasesLive().then(data => {
+      if (data && data.length > 0) {
+        setClases(data.map(c => ({
+          id: c.id,
+          title: c.title,
+          date: `${c.date} ${c.time}`,
+          status: c.status || 'Programada',
+          viewers: c.viewers || 0
+        })));
+      }
+    });
+  }, [isSupabaseConfigured]);
+
   // Modal para edición
   const [editingItem, setEditingItem] = useState(null);
   const [editType, setEditType] = useState(null); // 'guia', 'taller', 'clase'
 
-  const handleDeleteGuia = (id) => {
+  const handleDeleteGuia = async (id) => {
     if (window.confirm('¿Estás seguro de eliminar esta guía?')) {
       setGuias(guias.filter(g => g.id !== id));
+      if (isSupabaseConfigured && typeof id === 'number') {
+        await deleteGuia(id);
+      }
     }
   };
 
-  const handleDeleteTaller = (id) => {
+  const handleDeleteTaller = async (id) => {
     if (window.confirm('¿Estás seguro de eliminar este taller?')) {
       setTalleres(talleres.filter(t => t.id !== id));
+      if (isSupabaseConfigured && typeof id === 'number') {
+        await deleteTaller(id);
+      }
     }
   };
 
-  const handleDeleteClase = (id) => {
+  const handleDeleteClase = async (id) => {
     if (window.confirm('¿Estás seguro de eliminar esta clase programada?')) {
       setClases(clases.filter(c => c.id !== id));
+      if (isSupabaseConfigured && typeof id === 'number') {
+        await deleteClaseLive(id);
+      }
     }
   };
 
-  const handleSaveEdit = (e) => {
+  const handleSaveEdit = async (e) => {
     e.preventDefault();
     if (editType === 'guia') {
       setGuias(guias.map(g => g.id === editingItem.id ? editingItem : g));
+      if (isSupabaseConfigured && typeof editingItem.id === 'number') {
+        await updateGuia(editingItem.id, {
+          title: editingItem.title,
+          category: editingItem.category,
+          grade: editingItem.grade
+        });
+      }
     } else if (editType === 'taller') {
       setTalleres(talleres.map(t => t.id === editingItem.id ? editingItem : t));
+      if (isSupabaseConfigured && typeof editingItem.id === 'number') {
+        await updateTaller(editingItem.id, {
+          title: editingItem.title,
+          difficulty: editingItem.difficulty,
+          assigned_to: editingItem.assignedTo,
+          due_date: editingItem.dueDate
+        });
+      }
     } else if (editType === 'clase') {
       setClases(clases.map(c => c.id === editingItem.id ? editingItem : c));
+      if (isSupabaseConfigured && typeof editingItem.id === 'number') {
+        await updateClaseLive(editingItem.id, {
+          title: editingItem.title,
+          status: editingItem.status
+        });
+      }
     }
     setEditingItem(null);
     setEditType(null);

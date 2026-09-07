@@ -9,11 +9,11 @@
 
 .login-card {
   width: 100%;
-  max-width: 440px;
-  padding: 2.5rem;
+  max-width: 450px;
+  padding: 2.25rem;
   display: flex;
   flex-direction: column;
-  gap: 1.75rem;
+  gap: 1.4rem;
   animation: fadeIn 0.4s ease-out;
 }
 
@@ -22,7 +22,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 0.75rem;
+  gap: 0.6rem;
 }
 
 .brand-logo {
@@ -47,6 +47,50 @@
   color: var(--color-text-secondary);
 }
 
+.supabase-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(34, 197, 94, 0.12);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  margin-top: 0.25rem;
+}
+
+.supabase-status-badge .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
+}
+
+/* Alertas */
+.auth-alert {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  line-height: 1.3;
+}
+
+.auth-alert.error {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.auth-alert.success {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
 /* Role Selector Tabs */
 .role-selector-tabs {
   display: grid;
@@ -69,22 +113,25 @@
   font-weight: 700;
   color: var(--color-text-secondary);
   transition: all var(--transition-fast);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
 
-  &:hover {
-    color: var(--color-text-primary);
-  }
+.role-tab:hover {
+  color: var(--color-text-primary);
+}
 
-  &.active {
-    background: var(--gradient-primary);
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
-  }
+.role-tab.active {
+  background: var(--gradient-primary);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.1rem;
 }
 
 .form-group {
@@ -121,10 +168,10 @@
   font-size: 0.9rem;
   outline: none;
   transition: border-color var(--transition-fast);
+}
 
-  &:focus {
-    border-color: var(--color-accent-primary);
-  }
+.input-with-icon input:focus {
+  border-color: var(--color-accent-primary);
 }
 
 .form-options {
@@ -145,26 +192,104 @@
 .forgot-password {
   color: var(--color-accent-primary);
   font-weight: 600;
+}
 
-  &:hover {
-    text-decoration: underline;
-  }
+.forgot-password:hover {
+  text-decoration: underline;
 }
 
 .login-submit-btn {
   width: 100%;
   justify-content: center;
   padding: 0.85rem;
-  margin-top: 0.5rem;
+  margin-top: 0.3rem;
+  cursor: pointer;
+}
+
+.login-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Divisor Demo */
+.demo-access-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 0.2rem 0;
+}
+
+.demo-access-divider::before,
+.demo-access-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.demo-access-divider span {
+  padding: 0 0.75rem;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.demo-buttons-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.demo-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.demo-btn.student {
+  background: rgba(14, 165, 233, 0.12);
+  color: #38bdf8;
+  border-color: rgba(14, 165, 233, 0.25);
+}
+
+.demo-btn.student:hover {
+  background: rgba(14, 165, 233, 0.25);
+}
+
+.demo-btn.teacher {
+  background: rgba(168, 85, 247, 0.12);
+  color: #c084fc;
+  border-color: rgba(168, 85, 247, 0.25);
+}
+
+.demo-btn.teacher:hover {
+  background: rgba(168, 85, 247, 0.25);
 }
 
 .login-footer {
   text-align: center;
   font-size: 0.85rem;
   color: var(--color-text-muted);
+}
 
-  a {
-    color: var(--color-accent-primary);
-    font-weight: 700;
-  }
+.link-button {
+  background: transparent;
+  border: none;
+  color: var(--color-accent-primary);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.85rem;
+}
+
+.link-button:hover {
+  text-decoration: underline;
 }

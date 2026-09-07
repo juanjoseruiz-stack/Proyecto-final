@@ -1,18 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { GUIDES_DATA } from '../data/mockData';
+import { fetchGuias, createGuia, updateGuia } from '../services/supabaseService';
 import { ArrowLeft, BookOpen, Download, FileText, Eye, PlusCircle, Upload, Edit3, X, Save } from 'lucide-react';
 import './Guias.css';
 
 export const Guias = () => {
-  const { searchTerm, user } = useApp();
+  const { searchTerm, user, isSupabaseConfigured } = useApp();
   const isTeacher = user.roleType === 'teacher';
 
   const [guides, setGuides] = useState(GUIDES_DATA);
   const [selectedSubject, setSelectedSubject] = useState('Todos');
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [editingGuide, setEditingGuide] = useState(null); // guide object being edited
+
+  useEffect(() => {
+    if (isSupabaseConfigured) {
+      fetchGuias().then(remoteGuides => {
+        if (remoteGuides && remoteGuides.length > 0) {
+          const formatted = remoteGuides.map(g => ({
+            id: g.id,
+            subject: g.category || 'Matemáticas',
+            title: g.title,
+            grade: g.grade || '11° Grado',
+            pages: 15,
+            downloadUrl: g.download_url || '#',
+            icon: '📄'
+          }));
+          setGuides(formatted);
+        }
+      });
+    }
+  }, [isSupabaseConfigured]);
 
   const [guideForm, setGuideForm] = useState({
     title: '',
@@ -50,7 +70,7 @@ export const Guias = () => {
     setShowUploadModal(true);
   };
 
-  const handleSaveGuide = (e) => {
+  const handleSaveGuide = async (e) => {
     e.preventDefault();
     if (!guideForm.title.trim()) return;
 
@@ -64,6 +84,14 @@ export const Guias = () => {
         pages: parseInt(guideForm.pages) || 15,
         icon: guideForm.icon
       } : g));
+
+      if (isSupabaseConfigured && typeof editingGuide.id === 'number') {
+        await updateGuia(editingGuide.id, {
+          title: guideForm.title,
+          category: guideForm.subject,
+          grade: guideForm.grade
+        });
+      }
     } else {
       // Upload new guide
       const created = {
@@ -76,6 +104,15 @@ export const Guias = () => {
         icon: guideForm.icon || '📄'
       };
       setGuides([created, ...guides]);
+
+      if (isSupabaseConfigured) {
+        await createGuia({
+          title: guideForm.title,
+          category: guideForm.subject,
+          grade: guideForm.grade,
+          author: user.name || 'Docente'
+        });
+      }
     }
 
     setShowUploadModal(false);
