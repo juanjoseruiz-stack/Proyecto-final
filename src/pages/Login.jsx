@@ -23,6 +23,25 @@ export const Login = () => {
     setRoleType(role);
   };
 
+  const formatAuthError = (message) => {
+    if (!message) return 'Ocurrió un error en la autenticación.';
+    const msgLower = message.toLowerCase();
+    
+    if (msgLower.includes('rate limit exceeded') || msgLower.includes('rate limit')) {
+      return 'Se ha superado el límite de envíos de correo de Supabase (Email rate limit exceeded). Espera unos minutos antes de reintentar o desactiva "Confirm Email" en el panel de Supabase.';
+    }
+    if (msgLower.includes('user already registered') || msgLower.includes('already registered')) {
+      return 'Este correo electrónico ya está registrado. Intenta iniciar sesión.';
+    }
+    if (msgLower.includes('invalid login credentials') || msgLower.includes('invalid credentials')) {
+      return 'Credenciales inválidas. Verifica tu correo y contraseña.';
+    }
+    if (msgLower.includes('password should be at least')) {
+      return 'La contraseña debe tener al menos 6 caracteres.';
+    }
+    return message;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
@@ -41,7 +60,7 @@ export const Login = () => {
           });
 
           if (error) {
-            setErrorMsg(error.message || 'Error al crear la cuenta en Supabase.');
+            setErrorMsg(formatAuthError(error.message));
           } else {
             setSuccessMsg('¡Cuenta registrada exitosamente! Iniciando sesión...');
             loginAsRole(roleType, { name: enteredName, email, roleType });
@@ -52,7 +71,7 @@ export const Login = () => {
           const { data, error } = await loginWithSupabase(email, password);
 
           if (error) {
-            setErrorMsg('Credenciales inválidas o cuenta no encontrada en Supabase.');
+            setErrorMsg(formatAuthError(error.message) || 'Credenciales inválidas o cuenta no encontrada en Supabase.');
           } else {
             loginAsRole(roleType, { name: enteredName || data?.user?.user_metadata?.name, email, roleType });
             navigate('/inicio');
