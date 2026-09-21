@@ -21,6 +21,7 @@ import { Perfil } from './pages/Opciones/Perfil';
 import { Notificaciones } from './pages/Opciones/Notificaciones';
 import { Configuraciones } from './pages/Opciones/Configuraciones';
 import { Ayuda } from './pages/Opciones/Ayuda';
+import { AdminDashboard } from './pages/AdminDashboard';
 
 export function App() {
   return (
@@ -34,6 +35,7 @@ export function App() {
           {/* Aplicación tras iniciar sesión */}
           <Route path="/" element={<Layout />}>
             <Route path="inicio" element={<Home />} />
+            <Route path="admin" element={<AdminDashboard />} />
             <Route path="clases" element={<Clases />} />
             <Route path="clases/:id" element={<ClaseLiveDetail />} />
             <Route path="guias" element={<Guias />} />
@@ -57,5 +59,6 @@ export function App() {
     </AppProvider>
   );
 }
+
 
 export default App;

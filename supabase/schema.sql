@@ -12,6 +12,10 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   role_title TEXT,
   level_or_department TEXT,
   avatar_url TEXT,
+  verification_status TEXT DEFAULT 'verified', -- 'pending', 'verified', 'rejected' (docentes)
+  diploma_url TEXT, -- Enlace o datos del diploma/certificado acreditativo
+  diploma_filename TEXT, -- Nombre del archivo de diploma adjuntado
+  professional_id TEXT, -- Número de tarjeta profesional o cédula docente
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 

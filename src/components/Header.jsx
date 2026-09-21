@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import { Menu, Search, Bell, Moon, Sun, User, LogOut, BookOpen } from 'lucide-react';
+import { Menu, Search, Bell, Moon, Sun, User, LogOut, BookOpen, ShieldCheck, GraduationCap } from 'lucide-react';
 import './Header.css';
 
 export const Header = () => {
@@ -12,11 +12,14 @@ export const Header = () => {
     unreadNotificationsCount,
     theme,
     toggleTheme,
-    user
+    user,
+    adminActiveRole,
+    switchAdminViewRole
   } = useApp();
 
   const [showSearchInput, setShowSearchInput] = useState(false);
   const navigate = useNavigate();
+  const isAdmin = user.roleType === 'admin';
 
   return (
     <header className="top-bar">
@@ -35,6 +38,29 @@ export const Header = () => {
           </div>
           <span className="app-title">EduNexus</span>
         </Link>
+
+        {isAdmin && (
+          <div className="admin-role-switcher-badge">
+            <ShieldCheck size={16} color="#818cf8" />
+            <span className="admin-label">Master Admin</span>
+            <div className="switcher-tabs">
+              <button 
+                className={`switch-tab ${adminActiveRole === 'teacher' ? 'active' : ''}`}
+                onClick={() => switchAdminViewRole('teacher')}
+                title="Vista Docente"
+              >
+                <GraduationCap size={13} /> Docente
+              </button>
+              <button 
+                className={`switch-tab ${adminActiveRole === 'student' ? 'active' : ''}`}
+                onClick={() => switchAdminViewRole('student')}
+                title="Vista Estudiante"
+              >
+                <User size={13} /> Estudiante
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="top-bar-right">
@@ -78,7 +104,9 @@ export const Header = () => {
           <img src={user.avatar} alt={user.name} className="profile-chip-avatar" />
           <div className="profile-chip-info">
             <span className="profile-chip-name">{user.name.split(' ')[0]}</span>
-            <span className="profile-chip-role">{user.roleType === 'teacher' ? 'Docente' : 'Estudiante'}</span>
+            <span className="profile-chip-role">
+              {user.roleType === 'admin' ? 'Super Admin' : user.roleType === 'teacher' ? 'Docente' : 'Estudiante'}
+            </span>
           </div>
         </Link>
       </div>

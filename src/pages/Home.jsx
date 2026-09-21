@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { MENU_ITEMS } from '../data/mockData';
-import { ArrowRight, Sparkles, PlusCircle, Video, FilePlus, UserCheck } from 'lucide-react';
+import { 
+  ArrowRight, Sparkles, PlusCircle, Video, FilePlus, UserCheck, 
+  ShieldCheck, Clock, FileText, CheckCircle2, ShieldAlert, Award, Eye 
+} from 'lucide-react';
+import { AdminTeacherVerificationModal } from '../components/AdminTeacherVerificationModal';
 import './Home.css';
 
 export const Home = () => {
-  const { searchTerm, user } = useApp();
+  const { searchTerm, user, pendingVerifications } = useApp();
   const isTeacher = user.roleType === 'teacher';
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
 
   const filteredItems = MENU_ITEMS.filter(item =>
     item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -16,6 +21,63 @@ export const Home = () => {
 
   return (
     <div className="home-container">
+      {/* Banner de Estado de Verificación Docente */}
+      {isTeacher && (
+        <section className={`accreditation-status-card glass-card ${user.verificationStatus || 'pending'}`}>
+          <div className="status-info-main">
+            {user.verificationStatus === 'verified' ? (
+              <div className="status-icon-badge verified">
+                <CheckCircle2 size={24} />
+              </div>
+            ) : user.verificationStatus === 'rejected' ? (
+              <div className="status-icon-badge rejected">
+                <ShieldAlert size={24} />
+              </div>
+            ) : (
+              <div className="status-icon-badge pending">
+                <Clock size={24} />
+              </div>
+            )}
+
+            <div className="status-text-content">
+              <div className="status-header-line">
+                <h3>
+                  {user.verificationStatus === 'verified' && 'Docente Acreditado y Verificado'}
+                  {user.verificationStatus === 'rejected' && 'Acreditación Docente No Aprobada'}
+                  {(user.verificationStatus === 'pending' || !user.verificationStatus) && 'Verificación de Diploma Docente en Proceso'}
+                </h3>
+                <span className={`badge-pill ${user.verificationStatus || 'pending'}`}>
+                  {user.verificationStatus === 'verified' ? '✓ Verificado' : user.verificationStatus === 'rejected' ? '✗ Rechazado' : '⌛ En Revisión'}
+                </span>
+              </div>
+
+              <p>
+                {user.verificationStatus === 'verified' && (
+                  `Tu diploma (${user.diplomaFileName || 'Diploma.pdf'}) y tarjeta profesional (${user.professionalId || 'Verificada'}) han sido validados por la administración.`
+                )}
+                {user.verificationStatus === 'rejected' && (
+                  'Tu solicitud de docente fue rechazada por inconsistencias en el documento. Por favor contacta a la administración.'
+                )}
+                {(user.verificationStatus === 'pending' || !user.verificationStatus) && (
+                  `Hemos registrado tu diploma (${user.diplomaFileName || 'Diploma.pdf'}). La administración está revisando tu acreditación para autorizar tu perfil docente completo.`
+                )}
+              </p>
+            </div>
+          </div>
+
+          <div className="status-actions">
+            <button 
+              className="btn-secondary admin-review-btn" 
+              onClick={() => setIsAdminModalOpen(true)}
+              title="Abrir Panel de Verificación de Docentes (Admin)"
+            >
+              <ShieldCheck size={16} />
+              <span>Panel de Moderación Docente ({pendingVerifications.filter(v => v.status === 'pending').length})</span>
+            </button>
+          </div>
+        </section>
+      )}
+
       <section className={`welcome-banner glass-card ${isTeacher ? 'teacher-banner' : ''}`}>
         <div className="banner-content">
           <div className="welcome-tag">
@@ -87,6 +149,12 @@ export const Home = () => {
           </div>
         )}
       </section>
+
+      {/* Modal de Moderación Administrativa de Docentes */}
+      <AdminTeacherVerificationModal 
+        isOpen={isAdminModalOpen} 
+        onClose={() => setIsAdminModalOpen(false)} 
+      />
     </div>
   );
 };

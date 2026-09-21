@@ -123,4 +123,133 @@
 .join-class-btn {
   margin-top: auto;
   justify-content: center;
+  flex: 1;
 }
+
+.google-meet-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-full);
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(8px);
+  color: #60a5fa;
+  border: 1px solid rgba(96, 165, 250, 0.4);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.class-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.meet-external-link {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: rgba(96, 165, 250, 0.15);
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  color: #60a5fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.meet-external-link:hover {
+  background: rgba(96, 165, 250, 0.3);
+  color: #ffffff;
+}
+
+.modal-title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Join Code Modal Styles */
+.join-code-modal {
+  width: 100%;
+  max-width: 480px;
+  padding: 1.75rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(250, 204, 21, 0.15);
+}
+
+.class-code-info-box {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.class-code-info-box h4 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.class-code-info-box p {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.code-hint-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background: rgba(250, 204, 21, 0.12);
+  color: #fde047;
+  border: 1px solid rgba(250, 204, 21, 0.3);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.code-hint-badge code {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.quick-code-fill-row {
+  margin: 0.5rem 0 1rem 0;
+}
+
+.btn-link-action {
+  background: none;
+  border: none;
+  color: #818cf8;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+
+  &:hover {
+    color: #a5b4fc;
+  }
+}
+
+.code-pill-item strong {
+  color: #fde047;
+  font-family: monospace;
+  letter-spacing: 0.5px;
+}
+
+

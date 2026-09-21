@@ -15,7 +15,8 @@ import {
   LogOut, 
   X,
   Layers,
-  FolderKanban
+  FolderKanban,
+  ShieldCheck
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -27,6 +28,7 @@ export const Sidebar = () => {
 
   const mainNavItems = [
     { id: 'inicio', label: 'Inicio', icon: Home, link: '/inicio' },
+    ...(user?.roleType === 'admin' ? [{ id: 'admin', label: 'Panel de Administración', icon: ShieldCheck, link: '/admin' }] : []),
     { id: 'guias', label: 'Guías de Estudio', icon: BookOpen, link: '/guias' },
     { id: 'clases', label: 'Clases en Vivo', icon: Video, link: '/clases' },
     { id: 'talleres', label: 'Talleres Interactivos', icon: Sliders, link: '/talleres' },
@@ -35,6 +37,7 @@ export const Sidebar = () => {
     { id: 'progreso', label: 'Mi Progreso', icon: TrendingUp, link: '/progreso' },
     { id: 'diplomas', label: 'Mis Diplomas', icon: Award, link: '/diplomas' }
   ];
+
 
   const optionItems = [
     { id: 'perfil', label: 'Mi Perfil', icon: User, link: '/perfil' },

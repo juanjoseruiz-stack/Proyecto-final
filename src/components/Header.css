@@ -157,3 +157,51 @@
   font-weight: 700;
   color: var(--color-accent-primary);
 }
+
+/* Switcher de vistas para el Administrador Master */
+.admin-role-switcher-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  margin-left: 0.5rem;
+}
+
+.admin-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #a5b4fc;
+}
+
+.switcher-tabs {
+  display: flex;
+  gap: 0.25rem;
+  background: rgba(15, 23, 42, 0.6);
+  padding: 0.15rem;
+  border-radius: 12px;
+}
+
+.switch-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.switch-tab.active {
+  background: var(--gradient-primary);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+}
+

@@ -56,6 +56,120 @@
   margin-bottom: 0.35rem;
 }
 
+.badges-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.badge-success {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+.badge-warning {
+  background: rgba(234, 179, 8, 0.2);
+  color: #facc15;
+  border: 1px solid rgba(234, 179, 8, 0.4);
+}
+
+/* Sección de Acreditación Docente */
+.profile-accreditation-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.profile-accreditation-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.accreditation-card-box {
+  padding: 1.1rem 1.25rem;
+  border-radius: var(--radius-sm);
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.accreditation-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.accred-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.85rem;
+}
+
+.accred-label {
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.accred-value {
+  font-weight: 700;
+}
+
+.accred-value.pending {
+  color: #facc15;
+}
+
+.accred-value.verified {
+  color: #4ade80;
+}
+
+.accred-value.code-value {
+  font-family: monospace;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+
+.diploma-file-preview {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.diploma-file-preview .file-icon {
+  color: #818cf8;
+}
+
+.diploma-file-preview .file-name {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.btn-link-action {
+  background: transparent;
+  border: none;
+  color: var(--color-accent-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: 0.5rem;
+}
+
+.btn-link-action:hover {
+  text-decoration: underline;
+}
+
 .opciones-form {
   display: flex;
   flex-direction: column;
@@ -151,16 +265,56 @@
   color: var(--color-text-secondary);
 }
 
-.mark-read-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(34, 197, 94, 0.15);
-  color: #4ade80;
+.notif-icon-wrapper.code-notif {
+  background: rgba(234, 179, 8, 0.15);
+  border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.notif-code-action-box {
+  margin-top: 0.65rem;
+  padding: 0.75rem 1rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(250, 204, 21, 0.25);
+  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
+
+.notif-code-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.83rem;
+  font-weight: 700;
+  color: #fde047;
+}
+
+.notif-code-badge code {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  letter-spacing: 1px;
+  font-family: monospace;
+}
+
+.notif-action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.notif-copy-btn,
+.notif-join-btn {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
 
 /* Configuraciones */
 .config-section {

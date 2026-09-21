@@ -8,12 +8,72 @@ export const MENU_ITEMS = [
 ];
 
 export const CLASSES_DATA = [
-  { id: 'matematicas', title: "MATEMÁTICAS", teacher: "Prof. Carlos Gómez", schedule: "Lunes y Miércoles 10:00 AM", imageUrl: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=500&auto=format&fit=crop&q=80", tag: "Cálculo y Álgebra" },
-  { id: 'historia', title: "HISTORIA", teacher: "Dra. Elena Rostova", schedule: "Martes 11:30 AM", imageUrl: "https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=500&auto=format&fit=crop&q=80", tag: "Historia Universal" },
-  { id: 'ciencias', title: "CIENCIAS Y FÍSICA", teacher: "Ing. Roberto Martínez", schedule: "Jueves 09:00 AM", imageUrl: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=500&auto=format&fit=crop&q=80", tag: "Física Cuántica" },
-  { id: 'literatura', title: "LITERATURA", teacher: "Lic. Sofía Morales", schedule: "Viernes 02:00 PM", imageUrl: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=500&auto=format&fit=crop&q=80", tag: "Literatura Hispana" },
-  { id: 'programacion', title: "PROGRAMACIÓN", teacher: "Ing. Ana Silva", schedule: "Lunes 04:00 PM", imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&auto=format&fit=crop&q=80", tag: "React & JS" },
-  { id: 'ingles', title: "INGLÉS", teacher: "Prof. John Doe", schedule: "Sábados 10:00 AM", imageUrl: "https://images.unsplash.com/photo-1543269865-cbf427effbad?w=500&auto=format&fit=crop&q=80", tag: "B2 Upper-Intermediate" }
+  { 
+    id: 'matematicas', 
+    title: "MATEMÁTICAS", 
+    teacher: "Prof. Carlos Gómez", 
+    schedule: "Lunes y Miércoles 10:00 AM", 
+    imageUrl: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=500&auto=format&fit=crop&q=80", 
+    tag: "Cálculo y Álgebra",
+    meetUrl: "https://meet.google.com/edu-math-live",
+    accessCode: "MATH-8492",
+    isGoogleMeet: true
+  },
+  { 
+    id: 'historia', 
+    title: "HISTORIA", 
+    teacher: "Dra. Elena Rostova", 
+    schedule: "Martes 11:30 AM", 
+    imageUrl: "https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=500&auto=format&fit=crop&q=80", 
+    tag: "Historia Universal",
+    meetUrl: "https://meet.google.com/edu-hist-live",
+    accessCode: "HIST-1029",
+    isGoogleMeet: true
+  },
+  { 
+    id: 'ciencias', 
+    title: "CIENCIAS Y FÍSICA", 
+    teacher: "Ing. Roberto Martínez", 
+    schedule: "Jueves 09:00 AM", 
+    imageUrl: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=500&auto=format&fit=crop&q=80", 
+    tag: "Física Cuántica",
+    meetUrl: "https://meet.google.com/edu-phys-live",
+    accessCode: "PHYS-9932",
+    isGoogleMeet: true
+  },
+  { 
+    id: 'literatura', 
+    title: "LITERATURA", 
+    teacher: "Lic. Sofía Morales", 
+    schedule: "Viernes 02:00 PM", 
+    imageUrl: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=500&auto=format&fit=crop&q=80", 
+    tag: "Literatura Hispana",
+    meetUrl: "https://meet.google.com/edu-lit-live",
+    accessCode: "LIT-4410",
+    isGoogleMeet: true
+  },
+  { 
+    id: 'programacion', 
+    title: "PROGRAMACIÓN", 
+    teacher: "Ing. Ana Silva", 
+    schedule: "Lunes 04:00 PM", 
+    imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&auto=format&fit=crop&q=80", 
+    tag: "React & JS",
+    meetUrl: "https://meet.google.com/edu-code-live",
+    accessCode: "CODE-2026",
+    isGoogleMeet: true
+  },
+  { 
+    id: 'ingles', 
+    title: "INGLÉS", 
+    teacher: "Prof. John Doe", 
+    schedule: "Sábados 10:00 AM", 
+    imageUrl: "https://images.unsplash.com/photo-1543269865-cbf427effbad?w=500&auto=format&fit=crop&q=80", 
+    tag: "B2 Upper-Intermediate",
+    meetUrl: "https://meet.google.com/edu-eng-live",
+    accessCode: "ENG-7712",
+    isGoogleMeet: true
+  }
 ];
 
 export const GUIDES_DATA = [
